@@ -74,30 +74,49 @@ void warp(char *input, char *prev)
         // go to a particular directory
         else
         {
-            char relpath[4096];
-            if (word[0] == '~')
-            { // the case where relative filepath is the argument
-                strcpy(relpath, word);
-                relpath[0] = '.';
-                memmove(word, word + 2, strlen(word) - 1);
+            // absolute path
+            if (word[0] == '/')
+            {
+                printf("eh %s\n", word);
+                int flag = chdir(word);
+                if (flag)
+                    perror("chdir");
+                else
+                {
+                    strcpy(prev, currdir);
+                    strcpy(currdir, word);
+                }
+                printf("%s\n", currdir);
             }
+            // relative path
             else
             {
-                strcpy(relpath, "./");
-                strcat(relpath, word);
-            }
+                char relpath[4096];
+                if (word[0] == '~' || word[0] == '.')
+                { // the case where relative filepath is the argument
+                    strcpy(relpath, word);
+                    if (word[0] == '~')
+                        relpath[0] = '.';
+                    memmove(word, word + 2, strlen(word) - 1);
+                }
+                else
+                {
+                    strcpy(relpath, "./");
+                    strcat(relpath, word);
+                }
 
-            int flag = chdir(relpath);
-            if (flag)
-                perror("chdir");
-            else
-            {
-                strcpy(prev, currdir);
-                if (currdir[strlen(currdir) - 1] != '/')
-                    strcat(currdir, "/");
-                strcat(currdir, word);
+                int flag = chdir(relpath);
+                if (flag)
+                    perror("chdir");
+                else
+                {
+                    strcpy(prev, currdir);
+                    if (currdir[strlen(currdir) - 1] != '/')
+                        strcat(currdir, "/");
+                    strcat(currdir, word);
+                }
+                printf("%s\n", currdir);
             }
-            printf("%s\n", currdir);
         }
 
         word = strtok(NULL, " \t");

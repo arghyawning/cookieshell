@@ -42,6 +42,11 @@ int main()
             // warp
             else if (strcmp(word, "warp") == 0)
                 warp(input, prev);
+
+            // proclore
+            else if (strcmp(word, "proclore") == 0)
+                proclore(input);
+
             else
             {
                 printf("%s is not a valid command\n", word);

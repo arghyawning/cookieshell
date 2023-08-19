@@ -2,9 +2,11 @@
 #define HEADERS_H_
 
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 #include "prompt.h"
 #include "warp.h"
-#include <unistd.h>
+#include "proclore.h"
 
 #endif
