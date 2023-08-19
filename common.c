@@ -1,4 +1,4 @@
-#include "ini.h"
+#include "common.h"
 
 char uname[256];
 char sysname[256];

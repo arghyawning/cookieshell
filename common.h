@@ -1,5 +1,5 @@
-#ifndef __INI_H_
-#define __INI_H_
+#ifndef __COMMON_H_
+#define __COMMON_H_
 
 #include "unistd.h"
 #include "stdio.h"

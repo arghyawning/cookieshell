@@ -1,7 +1,8 @@
 #include "headers.h"
-#include "ini.h"
+#include "common.h"
 
 #define CYAN_PROMPT "\e[0;36m"
+#define DEFAULT_PROMPT "\x1b[0m"
 
 void prompt()
 {
@@ -16,13 +17,14 @@ void prompt()
         printf("Error getting path.\n");
         return;
     }
-    // printf("%s\n", currdir);
 
-    // getting the relative path of current directory
-    char relpath[4096];
-    strcpy(relpath, currdir + strlen(rootdir));
-    if (strlen(relpath) == 0)
-        strcpy(relpath, "~");
+    char prom[4096];
+    if (strcmp(rootdir, currdir) == 0)
+        strcpy(prom, "~");
+    else if (strstr(rootdir, currdir))
+        strcpy(prom, currdir); // outside shell: absolute path
+    else
+        strcpy(prom, currdir + strlen(rootdir)); // inside shell: relative path
 
-    printf(CYAN_PROMPT "<%s@%s:%s>", uname, sysname, relpath);
+    printf(CYAN_PROMPT "<%s@%s:%s>" DEFAULT_PROMPT " ", uname, sysname, prom);
 }

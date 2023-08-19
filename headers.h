@@ -4,5 +4,7 @@
 #include <stdio.h>
 
 #include "prompt.h"
+#include "warp.h"
+#include <unistd.h>
 
 #endif
