@@ -1,7 +1,10 @@
 #include "headers.h"
+#include "ini.h"
 
 int main()
 {
+    initialise(); // set the common constant values
+    
     // Keep accepting commands
     while (1)
     {
@@ -10,4 +13,6 @@ int main()
         char input[4096];
         fgets(input, 4096, stdin);
     }
+
+    return 0;
 }
