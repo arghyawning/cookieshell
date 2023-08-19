@@ -10,8 +10,8 @@ void prompt()
     // printf("%s\n", rootdir);
 
     // getting the absolute path of the current directory
-    char currdir[256];
-    if (getcwd(currdir, 256) == NULL)
+    char currdir[4096];
+    if (getcwd(currdir, 4096) == NULL)
     {
         printf("Error getting path.\n");
         return;
@@ -19,7 +19,7 @@ void prompt()
     // printf("%s\n", currdir);
 
     // getting the relative path of current directory
-    char relpath[256];
+    char relpath[4096];
     strcpy(relpath, currdir + strlen(rootdir));
     if (strlen(relpath) == 0)
         strcpy(relpath, "~");

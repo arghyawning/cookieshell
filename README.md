@@ -19,3 +19,4 @@
 - The maximum size of file name is 255.
 - The maximum size of system name is 255.
 - The maximum size of user name is 255.
+- The maximum size of a path is 4096.

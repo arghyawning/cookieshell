@@ -6,7 +6,7 @@
 
 extern char uname[256];
 extern char sysname[256];
-extern char rootdir[256];
+extern char rootdir[4096];
 
 void initialise();
 

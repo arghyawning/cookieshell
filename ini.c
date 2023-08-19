@@ -2,7 +2,7 @@
 
 char uname[256];
 char sysname[256];
-char rootdir[256];
+char rootdir[4096];
 
 void initialise()
 {
@@ -21,7 +21,7 @@ void initialise()
     }
 
     // getting the absolute path of the root directory
-    if (getcwd(rootdir, 256) == NULL)
+    if (getcwd(rootdir, 4096) == NULL)
     {
         printf("Error getting path.\n");
         return;
