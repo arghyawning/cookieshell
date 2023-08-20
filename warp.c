@@ -24,7 +24,6 @@ void warp(char *input, char *prev)
 
     while (word != NULL)
     {
-        // printf("%s %s\n", word, currdir);
         if (word[strlen(word) - 1] == '\n')
             word[strlen(word) - 1] = '\0';
 

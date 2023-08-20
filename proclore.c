@@ -1,15 +1,15 @@
 #include "headers.h"
 
-void proclore(char *input)
+void proclore(char *command)
 {
-    char *arg = strtok(input, " \t");
+    char *arg = strtok(command, " \t");
     arg = strtok(NULL, " \t");
 
     int pid, gid;
     long int vm;
-    char prstat[3];
-    char execp[4096];
+    char execpath[4096];
 
+    // getting pid
     char pidstr[20];
     if (arg == NULL)
     {
@@ -21,12 +21,16 @@ void proclore(char *input)
         pid = atoi(arg);
         strcpy(pidstr, arg);
     }
+
+    // getting process group
     gid = getpgid(pid);
 
+    // getting vm
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
     vm = usage.ru_maxrss;
 
+    // getting status
     char filename[30];
     strcpy(filename, "/proc/");
     strcat(filename, pidstr);
@@ -35,35 +39,26 @@ void proclore(char *input)
     int filestatus = open(filename, O_RDONLY);
     if (filestatus == -1)
     {
-        printf("Error opening process information file\n");
+        perror("open");
         return;
     }
 
-    char words[55][50];
-    char filebuffer[55 * 50];
+    char filebuffer[4096];
     int flag = read(filestatus, filebuffer, sizeof(filebuffer));
     if (flag == -1)
     {
-        perror("Error reading process information file\n");
+        perror("read");
         close(filestatus);
         return;
     }
+    close(filestatus);
 
-    char *word = strtok(filebuffer, " \t\n");
-    while (word != NULL)
-    {
-        if (strcmp(word, "State:") == 0)
-        {
-            word = strtok(NULL, " \t\n");
-            strcpy(prstat, word);
-            break;
-        }
-        word = strtok(NULL, " \t\n");
-    }
+    char *line = strstr(filebuffer, "State:");
+    char prstatus = line[strlen("State:") + 1];
 
-    printf("%s\n", filename);
+    //getting exec path
     strcpy(filename + strlen(filename) - strlen("status"), "exe");
-    flag = readlink(filename, execp, sizeof(execp));
+    flag = readlink(filename, execpath, sizeof(execpath));
     if (flag < 0)
     {
         printf("Error getting executable path\n");
@@ -71,8 +66,8 @@ void proclore(char *input)
     }
 
     printf("pid: %d\n", pid);
-    printf("Process Status: %s\n", prstat);
+    printf("Process Status: %c\n", prstatus);
     printf("Process Group : %d\n", gid);
     printf("Virtual Memory: %ldKB\n", vm);
-    printf("Executable path: %s\n", execp);
+    printf("Executable path: %s\n", execpath);
 }

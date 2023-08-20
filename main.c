@@ -19,37 +19,49 @@ int main()
         {
             if (input[strlen(input) - 1] == '\n')
                 input[strlen(input) - 1] = '\0';
+
             // tokenising the input
             char temp[strlen(input) + 1];
             strcpy(temp, input);
-            // char *word = strtok(temp, " ");
-            char *word = strtok(temp, " \t");
 
-            // echo
-            if (strcmp(word, "echo") == 0)
+            char *x;
+            char *y;
+
+            char *command = strtok_r(temp, ";", &x);
+            while (command != NULL)
             {
-                word = strtok(NULL, " \t");
-                while (word != NULL)
+                char cmtemp[strlen(command) + 1];
+                strcpy(cmtemp, command);
+
+                char *word = strtok_r(cmtemp, " \t", &y);
+                // echo
+                if (strcmp(word, "echo") == 0)
                 {
-                    if (word[strlen(word) - 1] == '\n')
-                        printf("%s", word);
-                    else
-                        printf("%s ", word);
-                    word = strtok(NULL, " \t");
+                    word = strtok_r(NULL, " \t", &y);
+                    while (word != NULL)
+                    {
+                        if (word[strlen(word) - 1] == '\n')
+                            printf("%s", word);
+                        else
+                            printf("%s ", word);
+                        word = strtok_r(NULL, " \t", &y);
+                    }
                 }
-            }
 
-            // warp
-            else if (strcmp(word, "warp") == 0)
-                warp(input, prev);
+                // warp
+                else if (strcmp(word, "warp") == 0)
+                    warp(command, prev);
 
-            // proclore
-            else if (strcmp(word, "proclore") == 0)
-                proclore(input);
+                // proclore
+                else if (strcmp(word, "proclore") == 0)
+                    proclore(command);
 
-            else
-            {
-                printf("%s is not a valid command\n", word);
+                else
+                {
+                    printf("%s is not a valid command\n", word);
+                }
+
+                command = strtok_r(NULL, ";", &x);
             }
         }
     }
