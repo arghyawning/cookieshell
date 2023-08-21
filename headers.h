@@ -8,5 +8,6 @@
 #include "prompt.h"
 #include "warp.h"
 #include "proclore.h"
+#include "peek.h"
 
 #endif

@@ -56,6 +56,10 @@ int main()
                 else if (strcmp(word, "proclore") == 0)
                     proclore(command);
 
+                // peek
+                else if (strcmp(word, "peek") == 0)
+                    peek(command);
+
                 else
                 {
                     printf("%s is not a valid command\n", word);

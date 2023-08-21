@@ -1,2 +1,2 @@
-cookieshell: common.c main.c prompt.c warp.c proclore.c
-	gcc -g common.c main.c prompt.c warp.c proclore.c -o cookieshell 
+cookieshell: common.c main.c prompt.c warp.c proclore.c peek.c
+	gcc -g common.c main.c prompt.c warp.c proclore.c peek.c -o cookieshell 

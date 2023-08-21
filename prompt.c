@@ -24,7 +24,10 @@ void prompt()
     else if (strstr(rootdir, currdir))
         strcpy(prom, currdir); // outside shell: absolute path
     else
-        strcpy(prom, currdir + strlen(rootdir)); // inside shell: relative path
+    {
+        strcpy(prom, "~");
+        strcat(prom, currdir + strlen(rootdir)); // inside shell: relative path
+    }
 
     printf(CYAN_PROMPT "<%s@%s:%s>" DEFAULT_PROMPT " ", uname, sysname, prom);
 }
