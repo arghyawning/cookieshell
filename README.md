@@ -1,6 +1,6 @@
 # cookieshell
 
-Coding a shell from scratch!
+I built my own shell from scratch!
 
 ## Instructions
 
