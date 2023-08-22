@@ -12,6 +12,7 @@ void warp(char *input, char *prev)
     if (getcwd(currdir, 4096) == NULL)
         printf("Error getting path.\n");
 
+    // just stay
     if (word == NULL)
     {
         if (strcmp(currdir, rootdir) != 0)
