@@ -29,3 +29,4 @@
   - If relative path is given as argument, it will be given in the format: `~/xyz` or `./xyz`
   - Absolute path is given as argument if and only if it begins with `/`
   - No file has space(s) in its name
+- The assumptions for `warp` mostly follow through for `peek` and `seek` as well.
