@@ -15,8 +15,9 @@
 - main.c: to keep accepting commands and calling the relevant functions
 - common.c: to set the global values which will remain constant throughout
 - prompt.c: to set correct prompts (based on the current directory) every time
-- warp.c: for all `warp` commands
+- warp.c: for all `warp` commands (resembling `cd` in bash)
 - proclore.c: for all `proclore` commands
+- peek.c: for all `peek` commands (resembling `ls` in bash)
 
 ## Assumptions
 
