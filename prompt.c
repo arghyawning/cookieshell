@@ -1,9 +1,6 @@
 #include "headers.h"
 #include "common.h"
 
-#define CYAN_PROMPT "\e[0;36m"
-#define DEFAULT_PROMPT "\x1b[0m"
-
 void prompt()
 {
     // printf("%s\n", uname);
@@ -29,5 +26,5 @@ void prompt()
         strcat(prom, currdir + strlen(rootdir)); // inside shell: relative path
     }
 
-    printf(CYAN_PROMPT "<%s@%s:%s>" DEFAULT_PROMPT " ", uname, sysname, prom);
+    printf(CYAN_PROMPT "<%s@%s:" PURPLE_PROMPT "%s" CYAN_PROMPT ">" DEFAULT_PROMPT " ", uname, sysname, prom);
 }

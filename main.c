@@ -1,6 +1,37 @@
 #include "headers.h"
 #include "common.h"
 
+#define ALERT_COLOR "\e[0;31m"
+#define DEFAULT_COLOR "\x1b[0m"
+
+// Function to remove leading and trailing whitespace, tabs, and newlines
+void trimstr(char *word)
+{
+    if (word == NULL)
+    {
+        return;
+    }
+
+    // Find the first non-whitespace character
+    char *start = word;
+    while (*start && (*start == ' ' || *start == '\t' || *start == '\n'))
+    {
+        ++start;
+    }
+
+    // Find the last non-whitespace character
+    char *end = start + strlen(start) - 1;
+    while (end >= start && (*end == ' ' || *end == '\t' || *end == '\n'))
+    {
+        --end;
+    }
+
+    // Move the non-whitespace portion to the beginning of the string
+    size_t length = end - start + 1;
+    memmove(word, start, length);
+    word[length] = '\0';
+}
+
 int main()
 {
     initialise(); // set the common constant values
@@ -33,37 +64,52 @@ int main()
                 char cmtemp[strlen(command) + 1];
                 strcpy(cmtemp, command);
 
-                char *word = strtok_r(cmtemp, " \t", &y);
-                // echo
-                if (strcmp(word, "echo") == 0)
+                int noa = -1; // number of ampersands
+                char *subcom = strtok_r(cmtemp, "&", &y);
+                trimstr(subcom);
+                // printf("%s\t", subcom);
+
+                while (subcom != NULL)
                 {
-                    word = strtok_r(NULL, " \t", &y);
-                    while (word != NULL)
-                    {
-                        if (word[strlen(word) - 1] == '\n')
-                            printf("%s", word);
-                        else
-                            printf("%s ", word);
-                        word = strtok_r(NULL, " \t", &y);
-                    }
+                    noa++;
+                    subcom = strtok_r(NULL, "&", &y);
                 }
 
-                // warp
-                else if (strcmp(word, "warp") == 0)
-                    warp(command, prev);
+                memset(cmtemp, '\0', sizeof(cmtemp));
+                char *y = NULL;
+                // memset(y, '\0', sizeof(y));
+                strcpy(cmtemp, command);
 
-                // proclore
-                else if (strcmp(word, "proclore") == 0)
-                    proclore(command);
-
-                // peek
-                else if (strcmp(word, "peek") == 0)
-                    peek(command);
-
+                if (noa == 0)
+                {
+                    subcom = strtok_r(cmtemp, "&", &y);
+                    trimstr(subcom);
+                    // printf("just <%s>\n", subcom);
+                    if (strncmp(subcom, "warp", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
+                        warp(subcom, prev);
+                    else if (strncmp(subcom, "proclore", 8) == 0 && (strlen(subcom) == 8 || subcom[8] == ' ' || subcom[8] == '\t' || subcom[8] == '\n'))
+                        proclore(subcom);
+                    else if (strncmp(subcom, "peek", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
+                        peek(subcom);
+                    else
+                        printf(ALERT_COLOR "%s is not a valid command!" DEFAULT_COLOR "\n", subcom);
+                }
                 else
                 {
-                    printf("%s is not a valid command\n", word);
+
+                    char bgcom[noa][4096]; // background commands
+                    subcom = strtok_r(cmtemp, "&", &y);
+                    for (int i = 0; i < noa; i++)
+                    {
+                        strcpy(bgcom[i], subcom);
+                        subcom = strtok_r(NULL, "&", &y);
+                    }
+                    printf("bg commands:  ");
+                    for (int i = 0; i < noa; i++)
+                        printf("%s\t", bgcom[i]);
+                    printf("\nfg command: %s\n", subcom);
                 }
+                // printf("\n");
 
                 command = strtok_r(NULL, ";", &x);
             }
