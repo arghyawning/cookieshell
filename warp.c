@@ -40,25 +40,33 @@ void warp(char *input, char *prev)
         }
         else if (strcmp(word, ".") == 0) // stay
             printf("%s\n", currdir);
-        else if (strcmp(word, "..") == 0) // parent
+        else if (strcmp(word, "..") == 0 || strcmp(word, "../") == 0) // parent
         {
-            if (currdir[strlen(currdir) - 1] == '/')
-                currdir[strlen(currdir) - 1] = '\0';
+            if (strcmp(currdir, "/") == 0)
+                printf("%s\n", currdir);
+            else
+            {
+                if (currdir[strlen(currdir) - 1] == '/')
+                    currdir[strlen(currdir) - 1] = '\0';
 
-            char *last = strrchr(currdir, '/');
-            int len = 1 + last - currdir;
-            if (len > 1)
-                strcpy(prev, currdir);
-            // strncpy(currdir, currdir, len);
-            currdir[len] = '\0';
-            // printf("should be: %s\n", currdir);
-            chdir(currdir);
+                if (word[strlen(word) - 1] == '/')
+                    word[strlen(word) - 1] = '\0';
 
-            char disp[strlen(currdir)];
-            strcpy(disp, currdir);
-            if (strlen(currdir) > 1)
-                disp[strlen(currdir) - 1] = '\0';
-            printf("%s\n", disp);
+                char *last = strrchr(currdir, '/');
+                int len = 1 + last - currdir;
+                if (len > 1)
+                    strcpy(prev, currdir);
+                // strncpy(currdir, currdir, len);
+                currdir[len] = '\0';
+                // printf("should be: %s\n", currdir);
+                chdir(currdir);
+
+                char disp[strlen(currdir)];
+                strcpy(disp, currdir);
+                if (strlen(currdir) > 1)
+                    disp[strlen(currdir) - 1] = '\0';
+                printf("%s\n", disp);
+            }
         }
         // previous directory
         else if (strcmp(word, "-") == 0)
@@ -77,7 +85,7 @@ void warp(char *input, char *prev)
             // absolute path
             if (word[0] == '/')
             {
-                printf("eh %s\n", word);
+                // printf("eh %s\n", word);
                 int flag = chdir(word);
                 if (flag)
                     perror("chdir");
@@ -91,29 +99,59 @@ void warp(char *input, char *prev)
             // relative path
             else
             {
+                int parflag = 0;
                 char relpath[4096];
-                if (word[0] == '~' || word[0] == '.')
+                // printf("%s\n", word);
+                if (word[0] == '~' || (word[0] == '.' && word[1] != '.'))
                 { // the case where relative filepath is the argument
                     strcpy(relpath, word);
                     if (word[0] == '~')
                         relpath[0] = '.';
                     memmove(word, word + 2, strlen(word) - 1);
                 }
+                else if (strncmp(word, "../", 3) == 0)
+                {
+                    parflag = 1;
+
+                    // the case where relative filepath is the argument and its in the parent directory
+                    char *last = strrchr(currdir, '/');
+                    int len = 1 + last - currdir;
+                    if (len <= 1)
+                        parflag = 2;
+                    strcpy(relpath, word);
+                }
                 else
                 {
                     strcpy(relpath, "./");
                     strcat(relpath, word);
                 }
+                // printf("pf: %d\n", parflag);
 
-                int flag = chdir(relpath);
-                if (flag)
-                    perror("chdir");
-                else
+                if (parflag != 2)
                 {
-                    strcpy(prev, currdir);
-                    if (currdir[strlen(currdir) - 1] != '/')
-                        strcat(currdir, "/");
-                    strcat(currdir, word);
+
+                    int flag = chdir(relpath);
+                    if (flag)
+                        perror("chdir");
+                    else
+                    {
+                        strcpy(prev, currdir);
+                        if (parflag == 1)
+                        {
+                            if (currdir[strlen(currdir) - 1] == '/')
+                                currdir[strlen(currdir) - 1] = '\0';
+                            char *last = strrchr(currdir, '/');
+                            int len = last - currdir;
+                            currdir[len] = '\0';
+                            strcat(currdir, word + 2);
+                        }
+                        else
+                        {
+                            if (currdir[strlen(currdir) - 1] != '/')
+                                strcat(currdir, "/");
+                            strcat(currdir, word);
+                        }
+                    }
                 }
                 printf("%s\n", currdir);
             }

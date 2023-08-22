@@ -1,6 +1,6 @@
 # cookieshell
 
-I built my own shell from scratch!
+i built my own shell from scratch!
 
 ## Instructions
 
@@ -33,3 +33,4 @@ I built my own shell from scratch!
   - Absolute path is given as argument if and only if it begins with `/`
   - No file has space(s) in its name
 - The assumptions for `warp` mostly follow through for `peek` and `seek` as well.
+- If I have a command like `warp .. xyz` where `warp ..` is valid but `warp xyz` isn't, then we will just warp to `..` and then display the error message for the second part. Note that since half of the command was executed, we will include the entire command in `pastevents`.
