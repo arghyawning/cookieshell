@@ -1,5 +1,7 @@
 # cookieshell
 
+Coding a shell from scratch!
+
 ## Instructions
 
 ### To compile:
