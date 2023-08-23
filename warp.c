@@ -99,6 +99,32 @@ void warp(char *input, char *prev)
             // relative path
             else
             {
+                printf("???%s\n", word);
+                char relpath[4096];
+                if (word[0] != '.' && word[0] != '~')
+                {
+                    strcpy(relpath, "./");
+                    strcat(relpath, word);
+                }
+                else
+                {
+                    strcpy(relpath, word);
+                }
+                int flag = chdir(word);
+                if (flag)
+                    perror("chdir");
+                else
+                {
+                    char tempdir[4096];
+                    if (getcwd(tempdir, 4096) == NULL)
+                        printf("Error getting path.\n");
+                    if (strcmp(tempdir, currdir) != 0)
+                    {
+                        strcpy(prev, currdir);
+                        strcpy(currdir, tempdir);
+                    }
+                }
+                /*
                 int parflag = 0;
                 char relpath[4096];
                 // printf("%s\n", word);
@@ -153,6 +179,7 @@ void warp(char *input, char *prev)
                         }
                     }
                 }
+                */
                 printf("%s\n", currdir);
             }
         }
