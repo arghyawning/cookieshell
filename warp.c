@@ -10,7 +10,7 @@ void warp(char *input, char *prev)
 
     char currdir[4096];
     if (getcwd(currdir, 4096) == NULL)
-        printf("Error getting path.\n");
+        printf(ERROR_COLOR "Error getting path." DEFAULT_COLOR "\n");
 
     // just stay
     if (word == NULL)
@@ -99,7 +99,6 @@ void warp(char *input, char *prev)
             // relative path
             else
             {
-                printf("???%s\n", word);
                 char relpath[4096];
                 if (word[0] != '.' && word[0] != '~')
                 {
@@ -107,9 +106,7 @@ void warp(char *input, char *prev)
                     strcat(relpath, word);
                 }
                 else
-                {
                     strcpy(relpath, word);
-                }
                 int flag = chdir(word);
                 if (flag)
                     perror("chdir");
@@ -117,69 +114,13 @@ void warp(char *input, char *prev)
                 {
                     char tempdir[4096];
                     if (getcwd(tempdir, 4096) == NULL)
-                        printf("Error getting path.\n");
+                        printf(ERROR_COLOR "Error getting path." DEFAULT_COLOR "\n");
                     if (strcmp(tempdir, currdir) != 0)
                     {
                         strcpy(prev, currdir);
                         strcpy(currdir, tempdir);
                     }
                 }
-                /*
-                int parflag = 0;
-                char relpath[4096];
-                // printf("%s\n", word);
-                if (word[0] == '~' || (word[0] == '.' && word[1] != '.'))
-                { // the case where relative filepath is the argument
-                    strcpy(relpath, word);
-                    if (word[0] == '~')
-                        relpath[0] = '.';
-                    memmove(word, word + 2, strlen(word) - 1);
-                }
-                else if (strncmp(word, "../", 3) == 0)
-                {
-                    parflag = 1;
-
-                    // the case where relative filepath is the argument and its in the parent directory
-                    char *last = strrchr(currdir, '/');
-                    int len = 1 + last - currdir;
-                    if (len <= 1)
-                        parflag = 2;
-                    strcpy(relpath, word);
-                }
-                else
-                {
-                    strcpy(relpath, "./");
-                    strcat(relpath, word);
-                }
-                // printf("pf: %d\n", parflag);
-
-                if (parflag != 2)
-                {
-
-                    int flag = chdir(relpath);
-                    if (flag)
-                        perror("chdir");
-                    else
-                    {
-                        strcpy(prev, currdir);
-                        if (parflag == 1)
-                        {
-                            if (currdir[strlen(currdir) - 1] == '/')
-                                currdir[strlen(currdir) - 1] = '\0';
-                            char *last = strrchr(currdir, '/');
-                            int len = last - currdir;
-                            currdir[len] = '\0';
-                            strcat(currdir, word + 2);
-                        }
-                        else
-                        {
-                            if (currdir[strlen(currdir) - 1] != '/')
-                                strcat(currdir, "/");
-                            strcat(currdir, word);
-                        }
-                    }
-                }
-                */
                 printf("%s\n", currdir);
             }
         }

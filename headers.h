@@ -10,4 +10,7 @@
 #include "proclore.h"
 #include "peek.h"
 
+#define ERROR_COLOR "\e[0;31m"
+#define DEFAULT_COLOR "\x1b[0m"
+
 #endif

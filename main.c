@@ -1,9 +1,6 @@
 #include "headers.h"
 #include "common.h"
 
-#define ALERT_COLOR "\e[0;31m"
-#define DEFAULT_COLOR "\x1b[0m"
-
 // Function to remove leading and trailing whitespace, tabs, and newlines
 void trimstr(char *word)
 {
@@ -92,7 +89,7 @@ int main()
                     else if (strncmp(subcom, "peek", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
                         peek(subcom);
                     else
-                        printf(ALERT_COLOR "%s is not a valid command!" DEFAULT_COLOR "\n", subcom);
+                        printf(ERROR_COLOR "%s is not a valid command!" DEFAULT_COLOR "\n", subcom);
                 }
                 else
                 {
