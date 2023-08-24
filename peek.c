@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "common.h"
 
 void print_colored_name(const char *name, mode_t mode)
 {
@@ -79,12 +80,17 @@ void colorprint(const char *finalpath, char *contents[], int noc)
 char *processpath(char *path)
 {
     // char finalpath[strlen(path) + 3];
-    char *finalpath = (char *)malloc(strlen(path) + 3);
-    if (path[0] == '~')
-        path[0] = '.';
-    if (path[0] != '.' && path[0] != '/')
-        strcpy(finalpath, "./");
-    strcpy(finalpath, path);
+    char *finalpath = (char *)malloc(4096);
+    // if (path[0] == '~')
+    //     path[0] = '.';
+    if (strcmp(path, "~") == 0) // shell home
+        strcpy(finalpath, rootdir);
+    else
+    {
+        if (path[0] != '.' && path[0] != '/')
+            strcpy(finalpath, "./");
+        strcpy(finalpath, path);
+    }
 
     // if (access(path, F_OK) == -1)
     //     return "not valid";

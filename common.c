@@ -27,3 +27,25 @@ void initialise()
         return;
     }
 }
+
+// Function to remove leading and trailing whitespace, tabs, and newlines
+void trimstr(char *word)
+{
+    if (word == NULL)
+        return;
+
+    // Find the first non-whitespace character
+    char *start = word;
+    while (*start && (*start == ' ' || *start == '\t' || *start == '\n'))
+        ++start;
+
+    // Find the last non-whitespace character
+    char *end = start + strlen(start) - 1;
+    while (end >= start && (*end == ' ' || *end == '\t' || *end == '\n'))
+        --end;
+
+    // Move the non-whitespace portion to the beginning of the string
+    size_t length = end - start + 1;
+    memmove(word, start, length);
+    word[length] = '\0';
+}

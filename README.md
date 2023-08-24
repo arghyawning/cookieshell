@@ -34,3 +34,6 @@ i built my own shell from scratch!
   - No file has space(s) in its name
 - The assumptions for `warp` mostly follow through for `peek` and `seek` as well.
 - If I have a command like `warp .. xyz` where `warp ..` is valid but `warp xyz` isn't, then we will just warp to `..` and then display the error message for the second part. Note that since half of the command was executed, we will include the entire command in `pastevents`.
+- Maximum number of arguments in a command is 100.
+- The maximum length of an argument is 4096.
+- There can't be more than 250 background processes running at a time.
