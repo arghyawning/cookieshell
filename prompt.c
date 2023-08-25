@@ -1,7 +1,7 @@
 #include "headers.h"
 #include "common.h"
 
-void prompt()
+void prompt(int pflag, char *pcom)
 {
     // printf("%s\n", uname);
     // printf("%s\n", sysname);
@@ -26,5 +26,11 @@ void prompt()
         strcat(prom, currdir + strlen(rootdir)); // inside shell: relative path
     }
 
-    printf(CYAN_PROMPT "<%s@%s:" PURPLE_PROMPT "%s" CYAN_PROMPT ">" DEFAULT_PROMPT " ", uname, sysname, prom);
+    char *command = strtok(pcom, " \n\t");
+
+    // printf(CYAN_PROMPT "<%s@%s:" PURPLE_PROMPT "%s" CYAN_PROMPT ">" DEFAULT_PROMPT " ", uname, sysname, prom);
+    printf(CYAN_PROMPT "<%s@%s:" PURPLE_PROMPT "%s", uname, sysname, prom);
+    if (pflag != 0)
+        printf(YELLOW_PROMPT " %s: %ds", command, pflag);
+    printf(CYAN_PROMPT ">" DEFAULT_PROMPT " ");
 }

@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <time.h>
+#include <math.h>
 
 #include "prompt.h"
 #include "warp.h"
@@ -17,8 +19,7 @@
 #define ERROR_COLOR "\e[0;31m"
 #define DEFAULT_COLOR "\x1b[0m"
 
-extern int bgi;    // index of current background process
-// extern int nextbg; // index of next background process to be processed
+extern int bgi; // index of current background process
 struct backproc
 {
     /* data */

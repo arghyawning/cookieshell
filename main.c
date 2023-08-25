@@ -1,6 +1,8 @@
 #include "headers.h"
 #include "common.h"
 
+#include <math.h>
+
 int bgi = 0;
 struct backproc *bgs = NULL;
 
@@ -17,6 +19,10 @@ int main()
 
     // signal(SIGCHLD, handle_sigchld);
 
+    int pflag = 0;
+    char pcom[4096];
+    strcpy(pcom, "");
+
     // Keep accepting commands
     while (1)
     {
@@ -24,7 +30,9 @@ int main()
         setbuf(stdout, NULL);
 
         // Print appropriate prompt with username, systemname and directory before accepting input
-        prompt();
+        prompt(pflag, pcom);
+        pflag = 0;
+        strcpy(pcom, "");
 
         char input[4096];
         if (fgets(input, 4096, stdin) != NULL)
@@ -56,6 +64,10 @@ int main()
                 if (command[strlen(cmtemp) - 1] == '&')
                     strcat(cmtemp, " ");
 
+                // clock_t start, end;
+                time_t start, end;
+                double time_taken;
+
                 int noa = -1; // number of ampersands
                 char *subcom = strtok_r(cmtemp, "&", &y);
                 trimstr(subcom);
@@ -82,7 +94,19 @@ int main()
                         fflush(stdout);
                         exit(0);
                     }
+
+                    // start = clock();
+                    time(&start);
                     fg(subcom, prev);
+                    time(&end);
+                    // end = clock();
+                    time_taken = ((double)(end - start));
+                    // printf("fg took time %lf\n", time_taken);
+                    if (time_taken > 2)
+                    {
+                        pflag = (int)ceil(time_taken);
+                        strcpy(pcom, subcom);
+                    }
                 }
                 else
                 {
@@ -100,16 +124,27 @@ int main()
                         }
                         subcom = strtok_r(NULL, "&", &y);
                     }
-                    // printf("bg commands:  ");
+
                     for (i = 0; i < noa; i++)
                         bg(bgcom[i]);
-                    // printf("%s\t", bgcom[i]);
-                    // printf("\n");
+
                     if (subcom != NULL)
+                    {
+                        // start = clock();
+                        time(&start);
                         fg(subcom, prev);
-                    // printf("fg command: %s\n", subcom);
+                        time(&end);
+                        // end = clock();
+                        time_taken = ((double)(end - start));
+                        // printf("fg took time %lf\n", time_taken);
+                        if (time_taken > 2)
+                        {
+                            pflag = (int)ceil(time_taken);
+                            strcpy(pcom, subcom);
+                        }
+                    }
+                    // fg(subcom, prev);
                 }
-                // printf("\n");
 
                 command = strtok_r(NULL, ";", &x);
             }
