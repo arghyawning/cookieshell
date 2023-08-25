@@ -24,6 +24,9 @@ i built my own shell from scratch!
 - warp.c: for all `warp` commands (resembling `cd` in bash)
 - proclore.c: for all `proclore` commands
 - peek.c: for all `peek` commands (resembling `ls` in bash)
+- bg.c: for handling background processes
+- fg.c: for handling foreground processes
+- syscom.c: for handling system commands (like `echo`, `sleep`, etc)
 
 ## Assumptions
 
