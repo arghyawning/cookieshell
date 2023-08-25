@@ -1,26 +1,35 @@
 #include "headers.h"
 #include "common.h"
 
+int bgi = 0;
+struct backproc *bgs = NULL;
+
 int main()
 {
     initialise(); // set the common constant values
 
-    int i;
-    for (i = 0; i < 250; i++)
-        bgs[i] = (char *)malloc(4096 * sizeof(char));
-
     char prev[4096];
     strcpy(prev, "");
+
+    int i;
+
+    bgs = (struct backproc *)malloc(sizeof(struct backproc) * 250);
+
+    // signal(SIGCHLD, handle_sigchld);
 
     // Keep accepting commands
     while (1)
     {
+        // signal(SIGCHLD, handle_sigchld);
+        setbuf(stdout, NULL);
+
         // Print appropriate prompt with username, systemname and directory before accepting input
         prompt();
 
         char input[4096];
         if (fgets(input, 4096, stdin) != NULL)
         {
+            handle_sigchld();
             if (input[strlen(input) - 1] == '\n')
                 input[strlen(input) - 1] = '\0';
 
@@ -35,6 +44,12 @@ int main()
             char *command = strtok_r(temp, ";", &x);
             while (command != NULL)
             {
+                if (strcmp(command, "bye") == 0)
+                {
+                    printf("bye :(\n");
+                    fflush(stdout);
+                    exit(0);
+                }
                 char cmtemp[strlen(command) + 1];
                 strcpy(cmtemp, command);
 
@@ -61,6 +76,12 @@ int main()
                 {
                     subcom = strtok_r(cmtemp, "&", &y);
                     trimstr(subcom);
+                    if (strcmp(subcom, "bye") == 0)
+                    {
+                        printf("bye :(\n");
+                        fflush(stdout);
+                        exit(0);
+                    }
                     fg(subcom, prev);
                 }
                 else
@@ -71,6 +92,12 @@ int main()
                     for (i = 0; i < noa; i++)
                     {
                         strcpy(bgcom[i], subcom);
+                        if (strcmp(subcom, "bye") == 0)
+                        {
+                            printf("bye :(\n");
+                            fflush(stdout);
+                            exit(0);
+                        }
                         subcom = strtok_r(NULL, "&", &y);
                     }
                     // printf("bg commands:  ");

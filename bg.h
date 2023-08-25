@@ -9,5 +9,7 @@
 #include "syscom.h"
 
 void bg(char *subcom);
+void handle_sigchld();
+void delete_bg(int pid);
 
 #endif

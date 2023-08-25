@@ -2,7 +2,7 @@
 #include "headers.h"
 #include "common.h"
 
-int syscom(char *input)
+void syscom(char *input)
 {
     char comm[4096];
     strcpy(comm, input);
@@ -23,5 +23,20 @@ int syscom(char *input)
     args[i] = NULL;
     n = i;
 
-    return execvp(args[0], args);
+    int flag = execvp(args[0], args);
+    if (flag == -1)
+        printf(ERROR_COLOR "Erorr executing %s as a system command!" DEFAULT_COLOR "\n", input);
+    else
+    {
+        if (WIFEXITED(flag))
+        {
+            int exit = WEXITSTATUS(flag); // 0 if successful
+            if (exit == 0)
+                printf("%s executed successfully.\n", input);
+            else
+                printf(ERROR_COLOR "%s executed with non-zero exit status: %d\n" DEFAULT_COLOR, input, exit);
+        }
+        else if (WIFSIGNALED(flag))
+            printf(ERROR_COLOR "%s terminated by signal.\n" DEFAULT_COLOR, input);
+    }
 }

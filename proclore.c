@@ -8,6 +8,7 @@ void proclore(char *command)
     int pid, gid;
     long int vm;
     char execpath[4096];
+    char fbg = ' ';
 
     // getting pid
     char pidstr[20];
@@ -24,6 +25,9 @@ void proclore(char *command)
 
     // getting process group
     gid = getpgid(pid);
+
+    if (pid == gid)
+        fbg = '+'; // foreground process
 
     // getting vm
     struct rusage usage;
@@ -56,7 +60,7 @@ void proclore(char *command)
     char *line = strstr(filebuffer, "State:");
     char prstatus = line[strlen("State:") + 1];
 
-    //getting exec path
+    // getting exec path
     strcpy(filename + strlen(filename) - strlen("status"), "exe");
     flag = readlink(filename, execpath, sizeof(execpath));
     if (flag < 0)
@@ -66,7 +70,7 @@ void proclore(char *command)
     }
 
     printf("pid: %d\n", pid);
-    printf("Process Status: %c\n", prstatus);
+    printf("Process Status: %c%c\n", prstatus, fbg);
     printf("Process Group : %d\n", gid);
     printf("Virtual Memory: %ldKB\n", vm);
     printf("Executable path: %s\n", execpath);

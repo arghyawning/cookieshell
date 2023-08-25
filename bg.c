@@ -13,26 +13,58 @@ void bg(char *subcom)
     else if (child == 0)
     { // child
         trimstr(subcom);
-        // setsid();
-        int flag = syscom(subcom);
-        if (flag == -1)
-            printf(ERROR_COLOR "Erorr executing %s as a system command!" DEFAULT_COLOR "\n", subcom);
-        else
-        {
-            if (WIFEXITED(flag))
-            {
-                int exit = WEXITSTATUS(flag); // 0 if successful
-                if (exit == 0)
-                    printf("%s executed successfully.\n", subcom);
-                else
-                    printf(ERROR_COLOR "%s executed with non-zero exit status: %d\n" DEFAULT_COLOR, subcom, exit);
-            }
-            else if (WIFSIGNALED(flag))
-                printf(ERROR_COLOR "%s terminated by signal.\n" DEFAULT_COLOR, subcom);
-        }
+        setpgrp();
+        syscom(subcom);
     }
     else
     { // parent
         printf("Child process running in the background with PID: %d\n", child);
+        bgs[bgi].id = child;
+        strcpy(bgs[bgi].comm, subcom);
+        bgi++;
+    }
+}
+
+void handle_sigchld()
+{
+    int status;
+    int pid;
+    while ((pid = waitpid(-1, &status, WNOHANG)) > 0)
+    {
+        if (WIFEXITED(status))
+        {
+            printf("Process with PID %d exited normally.\n", pid);
+            delete_bg(pid);
+            // fflush(stdout);
+        }
+        else if (WIFSIGNALED(status))
+        {
+            printf("Process with PID %d exited due to signal.\n", pid);
+            delete_bg(pid);
+            // fflush(stdout);
+        }
+        else if (WIFSTOPPED(status))
+            printf("Process with PID %d stopped.\n", pid);
+        else if (WIFCONTINUED(status))
+            printf("Process with PID %d continued.\n", pid);
+    }
+}
+
+void delete_bg(int pid)
+{
+    int i;
+    for (i = 0; i < bgi; i++)
+    {
+        if (bgs[i].id == pid)
+        {
+            int j;
+            for (j = i; j < bgi - 1; j++)
+            {
+                bgs[j].id = bgs[j + 1].id;
+                strcpy(bgs[j].comm, bgs[j + 1].comm);
+            }
+            bgi--;
+            break;
+        }
     }
 }
