@@ -261,8 +261,10 @@ void pastevents(char *command)
 
 void updatepastevents(char *input)
 {
+    char inputcommand[10000];
+    strcpy(inputcommand, input);
 
-    if (strstr(input, "pastevents") != NULL)
+    if (strstr(inputcommand, "pastevents") != NULL)
         return;
 
     char *past[nope];
@@ -313,9 +315,9 @@ void updatepastevents(char *input)
     for (int i = 0; i < nope; ++i)
         fprintf(pef, "%s", past[i]);
 
-    if (backcheck(input, past[nope - 1]) == 1)
+    if (backcheck(inputcommand, past[nope - 1]) == 1)
     {
-        fprintf(pef, "%s\n", input);
+        fprintf(pef, "%s\n", inputcommand);
         nope++;
     }
 

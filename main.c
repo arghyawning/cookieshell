@@ -54,8 +54,8 @@ int main()
         pflag = 0;
         strcpy(pcom, "");
 
-        char input[4096];
-        if (fgets(input, 4096, stdin) != NULL)
+        char input[10000];
+        if (fgets(input, 10000, stdin) != NULL)
         {
             handle_sigchld();
 

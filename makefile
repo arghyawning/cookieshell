@@ -1,2 +1,2 @@
-cookieshell: common.c main.c prompt.c warp.c proclore.c peek.c fg.c bg.c syscom.c pastevents.c
-	gcc -g common.c main.c prompt.c warp.c proclore.c peek.c fg.c bg.c syscom.c pastevents.c -o cookieshell -lm
+cookieshell: common.c main.c prompt.c warp.c proclore.c peek.c fg.c bg.c syscom.c pastevents.c seek.c
+	gcc -g common.c main.c prompt.c warp.c proclore.c peek.c fg.c bg.c syscom.c pastevents.c seek.c -o cookieshell -lm

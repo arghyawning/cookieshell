@@ -27,6 +27,8 @@ i built my own shell from scratch!
 - bg.c: for handling background processes
 - fg.c: for handling foreground processes
 - syscom.c: for handling system commands (like `echo`, `sleep`, etc)
+- pastevents.c: for handling `pastevents` commands
+- seek.c: for handling `seek` commandss
 
 ## Assumptions
 
