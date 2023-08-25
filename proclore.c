@@ -26,7 +26,27 @@ void proclore(char *command)
     // getting process group
     gid = getpgid(pid);
 
-    if (pid == gid)
+    char procstat[30];
+    strcpy(procstat, "/proc/");
+    strcat(procstat, pidstr);
+    strcat(procstat, "/stat");
+    FILE *file = fopen(procstat, "r");
+    int count = 0, tcpgrp;
+    char buffer[16]; // Adjust the buffer size as needed
+
+    while (fscanf(file, "%s", buffer) != EOF)
+    {
+        count++;
+        if (count == 8)
+        {
+            tcpgrp = atoi(buffer);
+            break;
+        }
+    }
+    printf("tcpgrp: %d\n", tcpgrp);
+    fclose(file);
+
+    if (pid == tcpgrp)
         fbg = '+'; // foreground process
 
     // getting vm
