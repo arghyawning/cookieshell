@@ -1,7 +1,7 @@
 #include "headers.h"
 #include "common.h"
 
-void warp(char *input, char *prev)
+void warp(char *input)
 {
     char temp[strlen(input) + 1];
     strcpy(temp, input);

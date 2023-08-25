@@ -4,6 +4,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-void fg(char *subcom, char *prev);
+void fg(char *subcom);
 
 #endif

@@ -15,6 +15,7 @@
 #include "peek.h"
 #include "fg.h"
 #include "bg.h"
+#include "pastevents.h"
 
 #define ERROR_COLOR "\e[0;31m"
 #define DEFAULT_COLOR "\x1b[0m"
@@ -27,5 +28,13 @@ struct backproc
     char comm[4096];
 };
 extern struct backproc *bgs; // list of background processes
+
+extern char *pastfile;
+extern int nope; // number of past events
+// extern FILE *pef; // past events file
+// extern int pesi; // past events start index
+// extern int peei; // past events end index
+
+extern char *prev; // previous directory
 
 #endif

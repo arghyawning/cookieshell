@@ -4,6 +4,6 @@
 #include "sys/stat.h"
 #include "errno.h"
 
-void warp(char *input, char *prev);
+void warp(char *input);
 
 #endif

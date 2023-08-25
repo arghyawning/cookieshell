@@ -44,3 +44,5 @@ i built my own shell from scratch!
 - Maximum number of arguments in a command is 100.
 - The maximum length of an argument is 4096.
 - There can't be more than 250 background processes at a time
+- Maximum length of a command is 10000.
+- No file named `pastevents.txt` will be added to this directory.

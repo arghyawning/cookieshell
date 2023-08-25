@@ -43,7 +43,7 @@ void proclore(char *command)
             break;
         }
     }
-    printf("tcpgrp: %d\n", tcpgrp);
+    // printf("tcpgrp: %d\n", tcpgrp);
     fclose(file);
 
     if (pid == tcpgrp)

@@ -1,17 +1,37 @@
 #include "headers.h"
 #include "common.h"
 
-#include <math.h>
-
 int bgi = 0;
 struct backproc *bgs = NULL;
+
+char *pastfile = NULL;
+FILE *pef = NULL;
+int nope = 0;
+
+char *prev = NULL;
 
 int main()
 {
     initialise(); // set the common constant values
 
-    char prev[4096];
+    prev = (char *)(malloc(sizeof(char) * 4096));
     strcpy(prev, "");
+
+    pastfile = (char *)(malloc(sizeof(char) * 4096));
+    strcpy(pastfile, rootdir);
+    strcat(pastfile, "/pastevents.txt");
+
+    pef = fopen(pastfile, "r+");
+    if (pef != NULL)
+    //     perror(ERROR_COLOR "No past event found" DEFAULT_COLOR "\n");
+    // else
+    {
+        char line[10000];
+        while (fgets(line, sizeof(line), pef))
+            nope++;
+        fclose(pef);
+    }
+    printf("nope=%d\n", nope);
 
     int i;
 
@@ -38,8 +58,11 @@ int main()
         if (fgets(input, 4096, stdin) != NULL)
         {
             handle_sigchld();
+
             if (input[strlen(input) - 1] == '\n')
                 input[strlen(input) - 1] = '\0';
+
+            updatepastevents(input);
 
             // tokenising the input
             char temp[strlen(input) + 1];
@@ -55,6 +78,7 @@ int main()
                 if (strcmp(command, "bye") == 0)
                 {
                     printf("bye :(\n");
+                    // updatepastevents(input);
                     fflush(stdout);
                     exit(0);
                 }
@@ -91,20 +115,21 @@ int main()
                     if (strcmp(subcom, "bye") == 0)
                     {
                         printf("bye :(\n");
+                        // updatepastevents();
                         fflush(stdout);
                         exit(0);
                     }
 
                     // start = clock();
                     time(&start);
-                    fg(subcom, prev);
+                    fg(subcom);
                     time(&end);
                     // end = clock();
                     time_taken = ((double)(end - start));
                     // printf("fg took time %lf\n", time_taken);
                     if (time_taken > 2)
                     {
-                        pflag = (int)ceil(time_taken);
+                        pflag = (int)time_taken;
                         strcpy(pcom, subcom);
                     }
                 }
@@ -119,6 +144,7 @@ int main()
                         if (strcmp(subcom, "bye") == 0)
                         {
                             printf("bye :(\n");
+                            updatepastevents(input);
                             fflush(stdout);
                             exit(0);
                         }
@@ -130,20 +156,21 @@ int main()
 
                     if (subcom != NULL)
                     {
+                        trimstr(subcom);
                         // start = clock();
                         time(&start);
-                        fg(subcom, prev);
+                        fg(subcom);
                         time(&end);
                         // end = clock();
                         time_taken = ((double)(end - start));
                         // printf("fg took time %lf\n", time_taken);
                         if (time_taken > 2)
                         {
-                            pflag = (int)ceil(time_taken);
+                            pflag = (int)time_taken;
                             strcpy(pcom, subcom);
                         }
                     }
-                    // fg(subcom, prev);
+                    // fg(subcom);
                 }
 
                 command = strtok_r(NULL, ";", &x);
