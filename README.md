@@ -48,3 +48,4 @@ i built my own shell from scratch!
 - There can't be more than 250 background processes at a time
 - Maximum length of a command is 10000.
 - No file named `pastevents.txt` will be added to this directory.
+- File name inputs are case sensitive

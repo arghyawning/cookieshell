@@ -31,7 +31,7 @@ int main()
             nope++;
         fclose(pef);
     }
-    printf("nope=%d\n", nope);
+    // printf("nope=%d\n", nope);
 
     int i;
 
@@ -77,7 +77,10 @@ int main()
             {
                 if (strcmp(command, "bye") == 0)
                 {
-                    printf("bye :(\n");
+                    printf("bye ");
+                    sleep(1);
+                    printf(":(\n");
+                    sleep(1);
                     // updatepastevents(input);
                     fflush(stdout);
                     exit(0);
@@ -114,7 +117,11 @@ int main()
                     trimstr(subcom);
                     if (strcmp(subcom, "bye") == 0)
                     {
-                        printf("bye :(\n");
+                        // printf("bye :(\n");
+                        printf("bye ");
+                        sleep(1);
+                        printf(":(\n");
+                        sleep(1);
                         // updatepastevents();
                         fflush(stdout);
                         exit(0);
@@ -144,6 +151,10 @@ int main()
                         if (strcmp(subcom, "bye") == 0)
                         {
                             printf("bye :(\n");
+                            printf("bye ");
+                            sleep(1);
+                            printf(":(\n");
+                            sleep(1);
                             updatepastevents(input);
                             fflush(stdout);
                             exit(0);

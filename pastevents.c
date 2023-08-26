@@ -312,20 +312,46 @@ void updatepastevents(char *input)
         exit(1);
     }
 
-    for (int i = 0; i < nope; ++i)
-        fprintf(pef, "%s", past[i]);
-
-    if (backcheck(inputcommand, past[nope - 1]) == 1)
+    char tocheck[10000];
+    strcpy(tocheck, past[nope - 1]);
+    if (backcheck(inputcommand, tocheck) == 1)
     {
-        fprintf(pef, "%s\n", inputcommand);
-        nope++;
+        int i;
+        if (nope >= 15)
+        {
+            for (i = 1; i < nope; i++)
+            {
+                // printf("%s", past[i]);
+                fprintf(pef, "%s", past[i]);
+            }
+        }
+        else
+        {
+            for (i = 0; i < nope; i++)
+            {
+                // printf("%s", past[i]);
+                fprintf(pef, "%s", past[i]);
+            }
+        }
+        fprintf(pef, "%s\n", input);
+        // printf("%s\n", input);
+
+        for (int i = 0; i < nope; i++)
+            free(past[i]);
+        if (nope < 15)
+            nope++;
+    }
+    else
+    {
+        int i;
+        for (i = 0; i < nope; i++)
+        {
+            // printf("%s", past[i]);
+            fprintf(pef, "%s", past[i]);
+        }
+        for (i = 0; i < nope; i++)
+            free(past[i]);
     }
 
     fclose(pef);
-
-    for (int i = 0; i < nope - 1; i++)
-        free(past[i]);
-
-    // nope++;
-    // pastevents("pastevents");
 }
