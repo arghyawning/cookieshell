@@ -150,7 +150,7 @@ int main()
                         strcpy(bgcom[i], subcom);
                         if (strcmp(subcom, "bye") == 0)
                         {
-                            printf("bye :(\n");
+                            // printf("bye :(\n");
                             printf("bye ");
                             sleep(1);
                             printf(":(\n");

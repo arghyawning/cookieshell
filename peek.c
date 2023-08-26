@@ -254,7 +254,7 @@ void peek_l(char *path)
 
 void peek_al(char *path)
 {
-    printf("ls -al %s\n", path);
+    // printf("ls -al %s\n", path);
 
     // printf("ls -l %s\n", path);
 

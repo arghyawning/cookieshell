@@ -338,7 +338,7 @@ void seek(char *input, char *current)
     eflag = (char *)malloc(4096);
 
     nom = 0;
-    printf("input: %s\n", input);
+    // printf("input: %s\n", input);
 
     char temp[strlen(input) + 1];
     strcpy(temp, input); // copy of full command
@@ -402,7 +402,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                     strcpy(rel, rootdir);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searched(rel, name);
                 }
                 else if (word[0] == '.') // -e -d name relative path
@@ -410,7 +410,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(current) + strlen(word) + 1);
                     strcpy(rel, current);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searched(rel, name);
                 }
                 else
@@ -462,7 +462,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                     strcpy(rel, rootdir);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchd(rel, name);
                 }
                 else if (word[0] == '.') // -d name relative path
@@ -470,7 +470,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(current) + strlen(word) + 1);
                     strcpy(rel, current);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchd(rel, name);
                 }
                 else
@@ -535,7 +535,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                     strcpy(rel, rootdir);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searched(rel, name);
                 }
                 else if (word[0] == '.') // -e -d name relative path
@@ -543,7 +543,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(current) + strlen(word) + 1);
                     strcpy(rel, current);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searched(rel, name);
                 }
                 else
@@ -596,7 +596,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                     strcpy(rel, rootdir);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchef(rel, name);
                 }
                 else if (word[0] == '.') // -d name relative path
@@ -604,7 +604,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(current) + strlen(word) + 1);
                     strcpy(rel, current);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchef(rel, name);
                 }
                 else
@@ -647,7 +647,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                     strcpy(rel, rootdir);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchedf(rel, name);
                 }
                 else if (word[0] == '.') // -e name relative path
@@ -655,7 +655,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(current) + strlen(word) + 1);
                     strcpy(rel, current);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchedf(rel, name);
                 }
                 else
@@ -729,7 +729,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                     strcpy(rel, rootdir);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchef(rel, name);
                 }
                 else if (word[0] == '.') // -d name relative path
@@ -737,7 +737,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(current) + strlen(word) + 1);
                     strcpy(rel, current);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchef(rel, name);
                 }
                 else
@@ -789,7 +789,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                     strcpy(rel, rootdir);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchf(rel, name);
                 }
                 else if (word[0] == '.') // -d name relative path
@@ -797,7 +797,7 @@ void seek(char *input, char *current)
                     char *rel = malloc(strlen(current) + strlen(word) + 1);
                     strcpy(rel, current);
                     strcat(rel, word + 1);
-                    printf("searching path: %s\n", rel);
+                    // printf("searching path: %s\n", rel);
                     searchf(rel, name);
                 }
                 else
@@ -842,7 +842,7 @@ void seek(char *input, char *current)
                 char *rel = malloc(strlen(rootdir) + strlen(word) + 1);
                 strcpy(rel, rootdir);
                 strcat(rel, word + 1);
-                printf("searching path: %s\n", rel);
+                // printf("searching path: %s\n", rel);
                 searchdf(rel, name);
             }
             else if (word[0] == '.') // -d name relative path
@@ -850,7 +850,7 @@ void seek(char *input, char *current)
                 char *rel = malloc(strlen(current) + strlen(word) + 1);
                 strcpy(rel, current);
                 strcat(rel, word + 1);
-                printf("searching path: %s\n", rel);
+                // printf("searching path: %s\n", rel);
                 searchdf(rel, name);
             }
             else

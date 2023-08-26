@@ -11,7 +11,7 @@ void prompt(int pflag, char *pcom)
     char currdir[4096];
     if (getcwd(currdir, 4096) == NULL)
     {
-        printf("Error getting path.\n");
+        printf(ERROR_COLOR "Error getting path.\n" DEFAULT_COLOR);
         return;
     }
 

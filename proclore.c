@@ -85,7 +85,7 @@ void proclore(char *command)
     flag = readlink(filename, execpath, sizeof(execpath));
     if (flag < 0)
     {
-        printf("Error getting executable path\n");
+        printf(ERROR_COLOR "Error getting executable path\n" DEFAULT_COLOR);
         return;
     }
 
