@@ -23,5 +23,32 @@ void fg(char *subcom)
         seek(subcom, current);
     }
     else
-        system(subcom);
+    // system(subcom);
+    {
+        char *args[4096];
+        char *y = NULL;
+        char *token = strtok_r(subcom, " \t\n", &y);
+        int i = 0;
+        while (token != NULL)
+        {
+            args[i] = token;
+            i++;
+            token = strtok_r(NULL, " \t\n", &y);
+        }
+        args[i] = NULL;
+        int child = fork();
+        if (child == 0)
+        {
+            if (execvp(args[0], args) < 0)
+            {
+                printf(ERROR_COLOR "Invalid command.\n" DEFAULT_COLOR);
+                exit(0);
+            }
+        }
+        else
+        {
+            int status;
+            waitpid(child, &status, WUNTRACED);
+        }
+    }
 }

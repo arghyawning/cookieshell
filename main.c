@@ -23,8 +23,6 @@ int main()
 
     pef = fopen(pastfile, "r+");
     if (pef != NULL)
-    //     perror(ERROR_COLOR "No past event found" DEFAULT_COLOR "\n");
-    // else
     {
         char line[10000];
         while (fgets(line, sizeof(line), pef))
@@ -37,8 +35,6 @@ int main()
 
     bgs = (struct backproc *)malloc(sizeof(struct backproc) * 250);
 
-    // signal(SIGCHLD, handle_sigchld);
-
     int pflag = 0;
     char pcom[4096];
     strcpy(pcom, "");
@@ -46,7 +42,6 @@ int main()
     // Keep accepting commands
     while (1)
     {
-        // signal(SIGCHLD, handle_sigchld);
         setbuf(stdout, NULL);
 
         // Print appropriate prompt with username, systemname and directory before accepting input
@@ -81,7 +76,6 @@ int main()
                     sleep(1);
                     printf(":(\n");
                     sleep(1);
-                    // updatepastevents(input);
                     fflush(stdout);
                     exit(0);
                 }
@@ -91,7 +85,6 @@ int main()
                 if (command[strlen(cmtemp) - 1] == '&')
                     strcat(cmtemp, " ");
 
-                // clock_t start, end;
                 time_t start, end;
                 double time_taken;
 
@@ -122,7 +115,6 @@ int main()
                         sleep(1);
                         printf(":(\n");
                         sleep(1);
-                        // updatepastevents();
                         fflush(stdout);
                         exit(0);
                     }
@@ -131,9 +123,7 @@ int main()
                     time(&start);
                     fg(subcom);
                     time(&end);
-                    // end = clock();
                     time_taken = ((double)(end - start));
-                    // printf("fg took time %lf\n", time_taken);
                     if (time_taken > 2)
                     {
                         pflag = (int)time_taken;
@@ -150,7 +140,6 @@ int main()
                         strcpy(bgcom[i], subcom);
                         if (strcmp(subcom, "bye") == 0)
                         {
-                            // printf("bye :(\n");
                             printf("bye ");
                             sleep(1);
                             printf(":(\n");
@@ -168,20 +157,16 @@ int main()
                     if (subcom != NULL)
                     {
                         trimstr(subcom);
-                        // start = clock();
                         time(&start);
                         fg(subcom);
                         time(&end);
-                        // end = clock();
                         time_taken = ((double)(end - start));
-                        // printf("fg took time %lf\n", time_taken);
                         if (time_taken > 2)
                         {
                             pflag = (int)time_taken;
                             strcpy(pcom, subcom);
                         }
                     }
-                    // fg(subcom);
                 }
 
                 command = strtok_r(NULL, ";", &x);
