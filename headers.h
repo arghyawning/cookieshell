@@ -17,6 +17,7 @@
 #include "bg.h"
 #include "pastevents.h"
 #include "seek.h"
+#include "activities.h"
 
 #define ERROR_COLOR "\e[0;31m"
 #define DEFAULT_COLOR "\x1b[0m"

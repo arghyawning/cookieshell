@@ -22,6 +22,8 @@ void fg(char *subcom)
         // printf("curr %s\n", current);
         seek(subcom, current);
     }
+    else if (strncmp(subcom, "activities", 10) == 0 && (strlen(subcom) == 10 || subcom[10] == ' ' || subcom[10] == '\t' || subcom[10] == '\n'))
+        activities();
     else
     // system(subcom);
     {
