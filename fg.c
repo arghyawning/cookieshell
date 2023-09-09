@@ -24,6 +24,8 @@ void fg(char *subcom)
     }
     else if (strncmp(subcom, "activities", 10) == 0 && (strlen(subcom) == 10 || subcom[10] == ' ' || subcom[10] == '\t' || subcom[10] == '\n'))
         activities();
+    else if (strncmp(subcom, "iMan", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
+        iman(subcom);
     else
     // system(subcom);
     {
