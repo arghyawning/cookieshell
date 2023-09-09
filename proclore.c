@@ -31,6 +31,11 @@ void proclore(char *command)
     strcat(procstat, pidstr);
     strcat(procstat, "/stat");
     FILE *file = fopen(procstat, "r");
+    if (file == NULL)
+    {
+        printf(ERROR_COLOR "Error getting process status\n" DEFAULT_COLOR);
+        return;
+    }
     int count = 0, tcpgrp;
     char buffer[16]; // Adjust the buffer size as needed
 
