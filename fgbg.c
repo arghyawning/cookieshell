@@ -1,6 +1,6 @@
 #include "headers.h"
 
-void bgfg(char *subcom)
+int inputhandle(char *subcom)
 {
     char *pidstr = strtok(subcom, " \t\n");
     pidstr = strtok(NULL, " \t\n");
@@ -8,15 +8,22 @@ void bgfg(char *subcom)
     if (pidstr == NULL)
     {
         printf(ERROR_COLOR "Invalid command: No pid.\n" DEFAULT_COLOR);
-        return;
+        return -1;
     }
     if (strtok(NULL, " \t\n") != NULL)
     {
         printf(ERROR_COLOR "Invalid command: Too many arguments.\n" DEFAULT_COLOR);
-        return;
+        return -1;
     }
 
-    int pid = atoi(pidstr);
+    return atoi(pidstr);
+}
+
+void bgfg(char *subcom)
+{
+    int pid = inputhandle(subcom);
+    if (pid == -1)
+        return;
 
     // Check if the process with the given PID exists in the background processes list
     int i;
@@ -40,7 +47,7 @@ void bgfg(char *subcom)
 
     // bringing the background process to the foreground
     if (tcsetpgrp(0, pgid) == -1)
-        printf(ERROR_COLOR "Error moving processto foreground.\n" DEFAULT_COLOR);
+        printf(ERROR_COLOR "Error moving process to foreground.\n" DEFAULT_COLOR);
 
     // telling the process to start executing again in the foreground
     if (kill(pid, SIGCONT) == -1)
