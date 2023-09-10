@@ -1,4 +1,5 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/76mHqLr5)
+
 # cookieshell
 
 i built my own shell from scratch!
@@ -32,6 +33,7 @@ i built my own shell from scratch!
 - seek.c: for handling `seek` commands
 - activities.c: for handling the `activities` command
 - fgbg.c: for handling `fg` and `bg` commands
+- signals.c: for handling signal-related i.e the `ping` commands.
 
 ## Assumptions
 
