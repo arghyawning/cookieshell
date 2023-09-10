@@ -79,4 +79,15 @@ void bgfg(char *subcom)
 
 void bgrun(char *subcom)
 {
+    int pid = inputhandle(subcom);
+    if (pid == -1)
+        return;
+
+    if (kill(pid, SIGCONT) != 0)
+    {
+        printf(ERROR_COLOR);
+        perror("Error");
+        printf(DEFAULT_COLOR);
+        printf(ERROR_COLOR "Could not resume process %d\n" DEFAULT_COLOR, pid);
+    }
 }
