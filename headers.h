@@ -19,6 +19,7 @@
 #include "seek.h"
 #include "activities.h"
 #include "iman.h"
+#include "fgbg.h"
 
 #define ERROR_COLOR "\e[0;31m"
 #define DEFAULT_COLOR "\x1b[0m"

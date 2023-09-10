@@ -26,6 +26,10 @@ void fg(char *subcom)
         activities();
     else if (strncmp(subcom, "iMan", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
         iman(subcom);
+    else if (strncmp(subcom, "fg", 2) == 0 && (strlen(subcom) == 2 || subcom[2] == ' ' || subcom[2] == '\t' || subcom[2] == '\n'))
+        bgfg(subcom);
+    else if (strncmp(subcom, "bg", 2) == 0 && (strlen(subcom) == 2 || subcom[2] == ' ' || subcom[2] == '\t' || subcom[2] == '\n'))
+        bgrun(subcom);
     else
     // system(subcom);
     {
