@@ -1,7 +1,9 @@
 #include "headers.h"
+#include "common.h"
 
 void fg(char *subcom)
 {
+    strcpy(currfgcom, subcom);
     // printf("fg %s\n", subcom);
     if (strncmp(subcom, "warp", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
         warp(subcom);
@@ -30,6 +32,8 @@ void fg(char *subcom)
         bgfg(subcom);
     else if (strncmp(subcom, "bg", 2) == 0 && (strlen(subcom) == 2 || subcom[2] == ' ' || subcom[2] == '\t' || subcom[2] == '\n'))
         bgrun(subcom);
+    else if (strncmp(subcom, "ping", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
+        signals(subcom);
     else
     // system(subcom);
     {
@@ -52,9 +56,12 @@ void fg(char *subcom)
                 printf(ERROR_COLOR "Invalid command.\n" DEFAULT_COLOR);
                 exit(0);
             }
+            // currfgid = getpid();
+            // printf("currfgid %d\n", currfgid);
         }
         else
         {
+            currfgid = child;
             int status;
             waitpid(child, &status, WUNTRACED);
         }

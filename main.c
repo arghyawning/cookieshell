@@ -10,6 +10,9 @@ int nope = 0;
 
 char *prev = NULL;
 
+int currfgid = -1;
+char *currfgcom = NULL;
+
 int main()
 {
     initialise(); // set the common constant values
@@ -20,6 +23,8 @@ int main()
     pastfile = (char *)(malloc(sizeof(char) * 4096));
     strcpy(pastfile, rootdir);
     strcat(pastfile, "/pastevents.txt");
+
+    currfgcom = (char *)(malloc(sizeof(char) * 4096));
 
     pef = fopen(pastfile, "r+");
     if (pef != NULL)
@@ -39,6 +44,9 @@ int main()
     char pcom[4096];
     strcpy(pcom, "");
 
+    signal(SIGINT, ctrlc);
+    signal(SIGTSTP, ctrlz);
+
     // Keep accepting commands
     while (1)
     {
@@ -48,9 +56,12 @@ int main()
         prompt(pflag, pcom);
         pflag = 0;
         strcpy(pcom, "");
+        // currfgid = -1;
 
         char input[10000];
-        if (fgets(input, 10000, stdin) != NULL)
+        if (fgets(input, 10000, stdin) == NULL)
+            ctrld();
+        else
         {
             handle_sigchld();
 
@@ -122,6 +133,7 @@ int main()
                     // start = clock();
                     time(&start);
                     fg(subcom);
+                    // currfgid = -1;
                     time(&end);
                     time_taken = ((double)(end - start));
                     if (time_taken > 2)
@@ -159,6 +171,7 @@ int main()
                         trimstr(subcom);
                         time(&start);
                         fg(subcom);
+                        // currfgid = -1;
                         time(&end);
                         time_taken = ((double)(end - start));
                         if (time_taken > 2)

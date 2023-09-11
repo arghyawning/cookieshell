@@ -20,6 +20,7 @@
 #include "activities.h"
 #include "iman.h"
 #include "fgbg.h"
+#include "signals.h"
 
 #define ERROR_COLOR "\e[0;31m"
 #define DEFAULT_COLOR "\x1b[0m"
@@ -38,6 +39,9 @@ extern int nope; // number of past events
 // extern FILE *pef; // past events file
 // extern int pesi; // past events start index
 // extern int peei; // past events end index
+
+extern int currfgid; // current foreground process id
+extern char *currfgcom; // current foreground process command
 
 extern char *prev; // previous directory
 
