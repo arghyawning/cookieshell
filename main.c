@@ -45,7 +45,24 @@ int main()
     strcpy(pcom, "");
 
     signal(SIGINT, ctrlc);
+    // signal(SIGTSTP, ctrlz);
+
+    // struct sigaction sigact;
+    // sigact.sa_handler = ctrlz;
+    // sigemptyset(&sigact.sa_mask);
+    // sigact.sa_flags = 0;
+    // sigaction(SIGTSTP, &sigact, NULL);
+
+    struct sigaction new_action, old_action;
+
     signal(SIGTSTP, ctrlz);
+    new_action.sa_handler = ctrlz;
+    sigemptyset(&new_action.sa_mask);
+    new_action.sa_flags = 0;
+
+    sigaction(SIGTSTP, NULL, &old_action);
+    if(old_action.sa_handler != SIG_IGN)
+        sigaction(SIGTSTP, &new_action, NULL);
 
     // Keep accepting commands
     while (1)

@@ -4,6 +4,10 @@
 #include "headers.h"
 #include "common.h"
 
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
+
 void activities();
 
 #endif

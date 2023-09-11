@@ -11,6 +11,7 @@ void ctrlz()
 
         setpgid(currfgid, currfgid);
         kill(currfgid, SIGTSTP);
+        printf("Process with PID %d stopped.\n", currfgid);
         currfgid = -1;
     }
 }
@@ -51,8 +52,8 @@ void signals(char *subcom)
         printf(ERROR_COLOR "Too less arguments\n" DEFAULT_COLOR);
         return;
     }
-    pid = pid % 32;
-    int signum = atoi(token);
+
+    int signum = atoi(token) % 32;
     token = strtok(NULL, " \t");
     if (token != NULL)
     {
@@ -66,22 +67,22 @@ void signals(char *subcom)
         return;
     }
 
-    // remove from bgs
-    int i;
-    for (i = 0; i < bgi; i++)
-    {
-        if (bgs[i].id == pid)
-        {
-            int j;
-            for (j = i; j < bgi - 1; j++)
-            {
-                bgs[j].id = bgs[j + 1].id;
-                strcpy(bgs[j].comm, bgs[j + 1].comm);
-            }
-            bgi--;
-            break;
-        }
-    }
+    // // remove from bgs
+    // int i;
+    // for (i = 0; i < bgi; i++)
+    // {
+    //     if (bgs[i].id == pid)
+    //     {
+    //         int j;
+    //         for (j = i; j < bgi - 1; j++)
+    //         {
+    //             bgs[j].id = bgs[j + 1].id;
+    //             strcpy(bgs[j].comm, bgs[j + 1].comm);
+    //         }
+    //         bgi--;
+    //         break;
+    //     }
+    // }
 
     return;
 }

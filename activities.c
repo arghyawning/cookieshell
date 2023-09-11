@@ -10,13 +10,20 @@ int compareComm(const void *a, const void *b)
 
 void activities()
 {
-    char stat[10];
-    strcpy(stat, "Running");
+    char stat[20];
     qsort(bgs, bgi, sizeof(struct backproc), compareComm);
 
-    int i = 0;
+    int i, status;
     for (i = 0; i < bgi; i++)
     {
+        int pid = waitpid(bgs[i].id, &status, WNOHANG | WUNTRACED);
+        printf("%d\n", pid);
+
+        if (WIFSTOPPED(status))
+            strcpy(stat, "Stopped");
+        else
+            strcpy(stat, "Running");
+
         printf("%d : %s - %s\n", bgs[i].id, bgs[i].comm, stat);
     }
 }
