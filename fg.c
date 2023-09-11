@@ -34,6 +34,8 @@ void fg(char *subcom)
         bgrun(subcom);
     else if (strncmp(subcom, "ping", 4) == 0 && (strlen(subcom) == 4 || subcom[4] == ' ' || subcom[4] == '\t' || subcom[4] == '\n'))
         signals(subcom);
+    else if (strncmp(subcom, "neonate", 7) == 0 && (strlen(subcom) == 7 || subcom[7] == ' ' || subcom[7] == '\t' || subcom[7] == '\n'))
+        neonate(subcom);
     else
     // system(subcom);
     {

@@ -21,6 +21,7 @@
 #include "iman.h"
 #include "fgbg.h"
 #include "signals.h"
+#include "neonate.h"
 
 #define ERROR_COLOR "\e[0;31m"
 #define DEFAULT_COLOR "\x1b[0m"
