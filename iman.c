@@ -72,10 +72,13 @@ void iman(char *subcom)
     }
 
     // receiving the response
-    char response[4096];
+    char response[10001];
+    char line[10001];
     int received, in_pre = 0;
-    while ((received = recv(socketfd, response, 4096, 0)) > 0)
+    int it = 0;
+    while ((received = recv(socketfd, response, 10000, 0)) > 0)
     {
+        it++;
         response[received] = '\0';
         if (strstr(response, "No manual entry for") != NULL)
         {
@@ -84,23 +87,24 @@ void iman(char *subcom)
             freeaddrinfo(res);
             return;
         }
-        // printf("%s", response);
 
-        // Parse and print the content inside <PRE> tags
-        char *start = strstr(response, "<PRE>");
-        char *end = strstr(response, "</PRE>");
-        if (start && end)
+        if (it == 1)
         {
-            in_pre = 1;
-            start += strlen("<PRE>");
-
-            // Remove HTML tags from the content
-            remove_tags(start);
+            char *firstbeg = strstr(response, "NAME");
+            if (firstbeg != NULL)
+            {
+                char *secondbeg = strstr(firstbeg + 4, "NAME");
+                if (secondbeg != NULL)
+                    printf("%s\n", secondbeg);
+                else
+                    printf("Second occurrence not found.\n");
+            }
+            else
+                printf("First occurrence not found.\n");
         }
-        else if (in_pre && end)
-        {
-            in_pre = 0;
-        }
+        else
+            printf("%s\n", response);
+        // memset(response, 0, sizeof(response));
     }
 
     if (received == -1)
