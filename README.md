@@ -56,4 +56,6 @@ i built my own shell from scratch!
 - Maximum length of a command is 10000.
 - No file named `pastevents.txt` will be added to this directory.
 - File name inputs are case sensitive
-- In `neonate`, if non-integer values are entered as the time argument, they will be rounded to their floor value.
+- In `neonate`,
+  - if non-integer values are entered as the time argument, they will be rounded to their floor value.
+  - non-negative values will not be entered.
