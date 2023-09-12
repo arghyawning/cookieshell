@@ -208,7 +208,13 @@ int main()
             case 0:
                 break;
             case 1:
-                printf("input redirection only\n");
+                // printf("input redirection only\n");
+                FILE *iredir = freopen(iredf, "r", stdin);
+                if (iredir == NULL)
+                {
+                    printf(ERROR_COLOR "Error: No such file or directory\n" DEFAULT_COLOR);
+                    continue;
+                }
                 break;
             case 2:
                 FILE *oredirw = freopen(oredf, "w", stdout);
@@ -228,6 +234,12 @@ int main()
                 break;
             case 4:
                 printf("input and output redirection (w)\n");
+                FILE *ioredir4 = freopen(iredf, "r", stdin);
+                if (ioredir4 == NULL)
+                {
+                    printf(ERROR_COLOR "Error: No such file or directory\n" DEFAULT_COLOR);
+                    continue;
+                }
                 FILE *ioredirw = freopen(oredf, "w", stdout);
                 if (ioredirw == NULL)
                 {
@@ -237,6 +249,12 @@ int main()
                 break;
             case 5:
                 printf("input and output redirection (a)\n");
+                FILE *ioredir5 = freopen(iredf, "r", stdin);
+                if (ioredir5 == NULL)
+                {
+                    printf(ERROR_COLOR "Error: No such file or directory\n" DEFAULT_COLOR);
+                    continue;
+                }
                 FILE *ioredira = freopen(oredf, "a", stdout);
                 if (ioredira == NULL)
                 {
@@ -370,6 +388,7 @@ int main()
             case 0:
                 break;
             case 1:
+                freopen("/dev/tty", "r", stdin);
                 break;
             case 2:
                 freopen("/dev/tty", "w", stdout);
@@ -378,9 +397,11 @@ int main()
                 freopen("/dev/tty", "w", stdout);
                 break;
             case 4:
+                freopen("/dev/tty", "r", stdin);
                 freopen("/dev/tty", "w", stdout);
                 break;
             case 5:
+                freopen("/dev/tty", "r", stdin);
                 freopen("/dev/tty", "w", stdout);
                 break;
             }
