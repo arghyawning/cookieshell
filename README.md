@@ -34,6 +34,8 @@ i built my own shell from scratch!
 - activities.c: for handling the `activities` command
 - fgbg.c: for handling `fg` and `bg` commands
 - signals.c: for handling signal-related i.e the `ping` commands.
+- neonate.c: for handling the `neonate` command.
+- iman.c: for handling `iMan` commands.
 
 ## Assumptions
 
@@ -54,3 +56,4 @@ i built my own shell from scratch!
 - Maximum length of a command is 10000.
 - No file named `pastevents.txt` will be added to this directory.
 - File name inputs are case sensitive
+- In `neonate`, if non-integer values are entered as the time argument, they will be rounded to their floor value.

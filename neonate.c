@@ -100,7 +100,7 @@ void neonate(char *subcom)
         return;
     }
 
-    if (timearg <= 0)
+    if (timearg < 0)
     {
         printf(ERROR_COLOR "Invalid time argument for neonate\n" DEFAULT_COLOR);
         return;
@@ -189,20 +189,45 @@ void neonate(char *subcom)
 
         // printf("Most recent process has pid %d with starting time %d\n", maxpid, maxtime);
         printf("%d\n", maxpid);
+        fflush(stdout);
 
-        // check for key hit
-        char key;
-        if (kbhit())
+        if (timearg == 0)
         {
-            key = getchar();
-            if (key == 'x')
+            char key;
+            if (kbhit())
             {
-                // printf("Exiting neonate\n");
-                break;
+                key = getchar();
+                if (key == 'x')
+                {
+                    // printf("Exiting neonate\n");
+                    break;
+                }
             }
         }
+        else
+        {
+            long long int i;
+            int flag = 0;
+            for (i = 0; i < timearg * 1000; i++)
+            {
+                // check for key hit
+                char key;
+                if (kbhit())
+                {
+                    key = getchar();
+                    if (key == 'x')
+                    {
+                        // printf("Exiting neonate\n");
+                        flag = 1;
+                        break;
+                    }
+                }
 
-        sleep(timearg);
+                usleep(1000);
+            }
+            if (flag == 1)
+                break;
+        }
     }
 
     // unblock signals
