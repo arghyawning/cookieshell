@@ -188,23 +188,13 @@ void runcom(char *command, char *input)
         break;
     }
 
-    // printf("1command: %s\n", command);
     char *xyz;
     char temptemp[strlen(command) + 1];
     strcpy(temptemp, command);
-    // char *inpworedir = strtok_r(temp, "<>", &xyz);
     char *inpworedir = strtok_r(temptemp, "<>", &xyz);
-    // strcpy(command, inpworedir);
-    // printf("1command: %s\n", command);
 
     char cmtemp[strlen(inpworedir) + 1];
     strcpy(cmtemp, inpworedir);
-
-    // char cmtemp[strlen(command) + 1];
-    // strcpy(cmtemp, command);
-
-    // if (command[strlen(cmtemp) - 1] == '&')
-    //     strcat(cmtemp, " ");
 
     if (inpworedir[strlen(inpworedir) - 1] == '&')
         strcat(cmtemp, " ");
