@@ -3,7 +3,9 @@
 
 void die(const char *s)
 {
+    printf(ERROR_COLOR);
     perror(s);
+    printf(DEFAULT_COLOR);
     exit(1);
 }
 

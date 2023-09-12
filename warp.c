@@ -88,7 +88,11 @@ void warp(char *input)
                 // printf("eh %s\n", word);
                 int flag = chdir(word);
                 if (flag)
+                {
+                    printf(ERROR_COLOR);
                     perror("chdir");
+                    printf(DEFAULT_COLOR);
+                }
                 else
                 {
                     strcpy(prev, currdir);
@@ -109,7 +113,11 @@ void warp(char *input)
                     strcpy(relpath, word);
                 int flag = chdir(word);
                 if (flag)
+                {
+                    printf(ERROR_COLOR);
                     perror("chdir");
+                    printf(DEFAULT_COLOR);
+                }
                 else
                 {
                     char tempdir[4096];

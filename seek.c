@@ -33,7 +33,9 @@ void searchf(char *current, char *name)
         struct stat file_stat;
         if (stat(path, &file_stat) == -1)
         {
+            printf(ERROR_COLOR);
             perror("stat");
+            printf(DEFAULT_COLOR);
             continue;
         }
 
@@ -71,7 +73,9 @@ void searchd(char *current, char *name)
         struct stat file_stat;
         if (stat(path, &file_stat) == -1)
         {
+            printf(ERROR_COLOR);
             perror("stat");
+            printf(DEFAULT_COLOR);
             continue;
         }
 
@@ -115,7 +119,9 @@ void searchdf(char *current, char *name)
         struct stat file_stat;
         if (stat(path, &file_stat) == -1)
         {
+            printf(ERROR_COLOR);
             perror("stat");
+            printf(DEFAULT_COLOR);
             continue;
         }
 
@@ -164,7 +170,9 @@ void searchedf(char *current, char *name)
         struct stat file_stat;
         if (stat(path, &file_stat) == -1)
         {
+            printf(ERROR_COLOR);
             perror("stat");
+            printf(DEFAULT_COLOR);
             continue;
         }
 
@@ -223,7 +231,9 @@ void searchef(char *current, char *name)
         struct stat file_stat;
         if (stat(path, &file_stat) == -1)
         {
+            printf(ERROR_COLOR);
             perror("stat");
+            printf(DEFAULT_COLOR);
             continue;
         }
 
@@ -265,7 +275,9 @@ void searched(char *current, char *name)
         struct stat file_stat;
         if (stat(path, &file_stat) == -1)
         {
+            printf(ERROR_COLOR);
             perror("stat");
+            printf(DEFAULT_COLOR);
             continue;
         }
 

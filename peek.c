@@ -109,7 +109,9 @@ void peek_nf(char *path)
     dir = opendir(finalpath);
     if (dir == NULL)
     {
+        printf(ERROR_COLOR);
         perror("opendir");
+        printf(DEFAULT_COLOR);
         return;
     }
 
@@ -153,7 +155,9 @@ void peek_a(char *path)
     dir = opendir(finalpath);
     if (dir == NULL)
     {
+        printf(ERROR_COLOR);
         perror("opendir");
+        printf(DEFAULT_COLOR);
         return;
     }
 
@@ -203,7 +207,9 @@ void peek_l(char *path)
     int noc = scandir(path, &namelist, NULL, (int (*)(const struct dirent **, const struct dirent **))compare_names);
     if (noc < 0)
     {
+        printf(ERROR_COLOR);
         perror("scandir");
+        printf(DEFAULT_COLOR);
         return;
     }
 
@@ -217,7 +223,9 @@ void peek_l(char *path)
             struct stat info;
             if (lstat(cont_path, &info) == -1)
             {
+                printf(ERROR_COLOR);
                 perror("lstat");
+                printf(DEFAULT_COLOR);
                 continue;
             }
 
@@ -275,7 +283,9 @@ void peek_al(char *path)
     int noc = scandir(path, &namelist, NULL, (int (*)(const struct dirent **, const struct dirent **))compare_names);
     if (noc < 0)
     {
+        printf(ERROR_COLOR);
         perror("scandir");
+        printf(DEFAULT_COLOR);
         return;
     }
 
@@ -287,7 +297,9 @@ void peek_al(char *path)
         struct stat info;
         if (lstat(cont_path, &info) == -1)
         {
+            printf(ERROR_COLOR);
             perror("lstat");
+            printf(DEFAULT_COLOR);
             continue;
         }
 

@@ -68,7 +68,9 @@ void proclore(char *command)
     int filestatus = open(filename, O_RDONLY);
     if (filestatus == -1)
     {
+        printf(ERROR_COLOR);
         perror("open");
+        printf(DEFAULT_COLOR);
         return;
     }
 
@@ -76,7 +78,9 @@ void proclore(char *command)
     int flag = read(filestatus, filebuffer, sizeof(filebuffer));
     if (flag == -1)
     {
+        printf(ERROR_COLOR);
         perror("read");
+        printf(DEFAULT_COLOR);
         close(filestatus);
         return;
     }
