@@ -59,3 +59,10 @@ i built my own shell from scratch!
 - In `neonate`,
   - if non-integer values are entered as the time argument, they will be rounded to their floor value.
   - non-negative values will not be entered.
+- For I/O redirection, only the following cases are possible:
+  - no `<` or `>` or `>>`
+  - one `<`
+  - one `>`
+  - one `>>`
+  - one `<` and one `>`
+  - one `<` and one `>>`
