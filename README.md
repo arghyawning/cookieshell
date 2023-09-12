@@ -66,3 +66,4 @@ i built my own shell from scratch!
   - one `>>`
   - one `<` and one `>`
   - one `<` and one `>>`
+- For the output of `iMan`, there can be some HTML tags.

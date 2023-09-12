@@ -18,11 +18,14 @@ void ctrlz()
 
 void ctrlc()
 {
+    // printf("%d\n", currfgid);
     if (currfgid != -1)
     {
+        printf("%d\n", currfgid);
         kill(currfgid, SIGINT);
         currfgid = -1;
     }
+    // printf("ok\n");
 }
 
 void ctrld()

@@ -46,6 +46,7 @@ int main()
 
     signal(SIGINT, ctrlc);
     // signal(SIGTSTP, ctrlz);
+    printf("coming\n");
 
     struct sigaction new_action, old_action;
 
@@ -71,7 +72,10 @@ int main()
 
         char input[10000];
         if (fgets(input, 10000, stdin) == NULL)
+        {
+            fflush(stdout);
             ctrld();
+        }
         else
         {
             handle_sigchld();
@@ -80,6 +84,9 @@ int main()
                 input[strlen(input) - 1] = '\0';
 
             updatepastevents(input);
+
+            if (input == NULL || strlen(input) == 0)
+                continue;
 
             // checking for i/o redirection
             int iored = 0; /*
