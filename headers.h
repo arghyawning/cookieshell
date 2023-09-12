@@ -9,6 +9,7 @@
 #include <time.h>
 #include <math.h>
 
+#include "command.h"
 #include "prompt.h"
 #include "warp.h"
 #include "proclore.h"
@@ -41,9 +42,14 @@ extern int nope; // number of past events
 // extern int pesi; // past events start index
 // extern int peei; // past events end index
 
-extern int currfgid; // current foreground process id
+extern int currfgid;    // current foreground process id
 extern char *currfgcom; // current foreground process command
 
 extern char *prev; // previous directory
+
+extern int pflag;
+extern char *pcom;
+
+extern int zflag;
 
 #endif

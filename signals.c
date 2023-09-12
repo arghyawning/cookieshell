@@ -14,6 +14,8 @@ void ctrlz()
         printf("Process with PID %d stopped.\n", currfgid);
         currfgid = -1;
     }
+    else
+        zflag = 1;
 }
 
 void ctrlc()
@@ -30,6 +32,13 @@ void ctrlc()
 
 void ctrld()
 {
+    if (zflag == 1)
+    {
+        printf("\n");
+        // exit(0);
+        zflag = 0;
+        return;
+    }
     // kill all background processes
     int i, j;
     for (i = 0; i < bgi; i++)
