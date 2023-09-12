@@ -215,25 +215,6 @@ int main()
                 break;
             case 1:
                 printf("input redirection only\n");
-                // if (strlen(iredf) == 0)
-                // {
-                //     printf(ERROR_COLOR "Error: No input file specified\n" DEFAULT_COLOR);
-                //     continue;
-                // }
-                // else
-                // {
-                //     int fd = open(iredf, O_RDONLY);
-                //     if (fd < 0)
-                //     {
-                //         printf(ERROR_COLOR "Error: No such file or directory\n" DEFAULT_COLOR);
-                //         continue;
-                //     }
-                //     else
-                //     {
-                //         dup2(fd, STDIN_FILENO);
-                //         close(fd);
-                //     }
-                // }
                 break;
             case 2:
                 FILE *oredirw = freopen(oredf, "w", stdout);
