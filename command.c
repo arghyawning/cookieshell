@@ -1,6 +1,6 @@
 #include "headers.h"
 
-void runcom(char *command, char *temp, char *input)
+void runcom(char *command, char *input)
 {
     int i;
     char *y = NULL;

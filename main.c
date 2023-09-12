@@ -117,9 +117,69 @@ int main()
                     exit(0);
                 }
 
-                // printf("command: %s\t%s", command, temp);
-                // printf("go\n");
-                runcom(command, temp, input);
+                // printf("command: %s\n", command);
+
+                // piping
+
+                trimstr(command);
+                if (command[strlen(command) - 1] == '|')
+                {
+                    printf("Invalid use of pipes\n");
+                    command = strtok_r(NULL, ";", &x);
+                    continue;
+                }
+
+                int in = dup(STDIN_FILENO);
+                int out = dup(STDOUT_FILENO);
+
+                char pipecomm[4096];
+                strcpy(pipecomm, command);
+                char *pp;
+                char *p = strtok_r(pipecomm, "|", &pp);
+                char *commands[10];
+                int numcom = 0;
+
+                while (p != NULL)
+                {
+                    commands[numcom] = malloc(sizeof(char) * (strlen(p) + 1));
+                    strcpy(commands[numcom], p);
+                    trimstr(commands[numcom]);
+                    numcom++;
+                    p = strtok_r(NULL, "|", &pp);
+                }
+
+                if (numcom >= 2)
+                {
+                    int pipes[numcom - 1][2];
+                    for (i = 0; i < numcom; i++)
+                    {
+                        char pipingcomm[4096];
+                        strcpy(pipingcomm, commands[i]);
+                        // printf("pipingcomm: %s\n", pipingcomm);
+
+                        if (i != numcom - 1)
+                        {
+                            pipe(pipes[i]);
+                            printf("%d\n", pipes[i][1]);
+                            dup2(pipes[i][1], STDOUT_FILENO);
+                        }
+                        else
+                            dup2(out, STDOUT_FILENO);
+
+                        if (i > 0)
+                            dup2(pipes[i - 1][0], STDIN_FILENO);
+
+                        runcom(pipingcomm, input);
+
+                        close(pipes[i - 1][0]);
+                        close(pipes[i][1]);
+                    }
+                    dup2(out, STDOUT_FILENO);
+                    dup2(in, STDIN_FILENO);
+                }
+
+                else
+                    runcom(command, input);
                 // printf("command: %s\n\n", command);
 
                 command = strtok_r(NULL, ";", &x);

@@ -17,7 +17,7 @@ void activities()
     for (i = 0; i < bgi; i++)
     {
         int pid = waitpid(bgs[i].id, &status, WNOHANG | WUNTRACED);
-        printf("%d\n", pid);
+        // printf("%d\n", pid);
 
         if (WIFSTOPPED(status))
             strcpy(stat, "Stopped");
