@@ -52,7 +52,6 @@ int main()
 
     signal(SIGINT, ctrlc);
     // signal(SIGTSTP, ctrlz);
-    // printf("coming\n");
 
     struct sigaction new_action, old_action;
 
@@ -97,9 +96,6 @@ int main()
             // tokenising the input
             char temp[strlen(input) + 1];
             strcpy(temp, input);
-            // char *inpworedir = strtok(temp, "<>");
-            // strcpy(temp, inpworedir);
-            // printf("inp w/o redir=%s\n", temp);
 
             char *x;
 
@@ -160,7 +156,7 @@ int main()
                         if (i != numcom - 1)
                         {
                             pipe(pipes[i]);
-                            printf("%d\n", pipes[i][1]);
+                            // printf("%d\n", pipes[i][1]);
                             dup2(pipes[i][1], STDOUT_FILENO);
                         }
                         else

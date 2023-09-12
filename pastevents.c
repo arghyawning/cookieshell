@@ -37,21 +37,24 @@ int backcheck(char *input, char *last)
 
 void execpast(char *input)
 {
-    int pflag = 0;
-    char pcom[4096];
-    strcpy(pcom, "");
-
     int i;
+
+    handle_sigchld();
 
     if (input[strlen(input) - 1] == '\n')
         input[strlen(input) - 1] = '\0';
 
+    if (input == NULL || strlen(input) == 0)
+        return;
+
     // tokenising the input
     char temp[strlen(input) + 1];
     strcpy(temp, input);
+    // char *inpworedir = strtok(temp, "<>");
+    // strcpy(temp, inpworedir);
+    // printf("inp w/o redir=%s\n", temp);
 
     char *x;
-    char *y;
 
     // printf("input: %s\n", input);
     char *command = strtok_r(temp, ";", &x);
@@ -59,116 +62,211 @@ void execpast(char *input)
     {
         if (strcmp(command, "bye") == 0)
         {
-            // printf("bye :(\n");
             printf("bye ");
             sleep(1);
             printf(":(\n");
             sleep(1);
-            // updatepastevents(input);
             fflush(stdout);
             exit(0);
         }
-        char cmtemp[strlen(command) + 1];
-        strcpy(cmtemp, command);
 
-        if (command[strlen(cmtemp) - 1] == '&')
-            strcat(cmtemp, " ");
+        // piping
 
-        // clock_t start, end;
-        time_t start, end;
-        double time_taken;
-
-        int noa = -1; // number of ampersands
-        char *subcom = strtok_r(cmtemp, "&", &y);
-        trimstr(subcom);
-        // printf("%s\t", subcom);
-
-        while (subcom != NULL)
+        trimstr(command);
+        if (command[strlen(command) - 1] == '|')
         {
-            noa++;
-            subcom = strtok_r(NULL, "&", &y);
+            printf("Invalid use of pipes\n");
+            command = strtok_r(NULL, ";", &x);
+            continue;
         }
 
-        memset(cmtemp, '\0', sizeof(cmtemp));
-        char *y = NULL;
-        strcpy(cmtemp, command);
-        // printf("noa=%d\n", noa);
+        int in = dup(STDIN_FILENO);
+        int out = dup(STDOUT_FILENO);
 
-        if (noa == 0)
+        char pipecomm[4096];
+        strcpy(pipecomm, command);
+        char *pp;
+        char *p = strtok_r(pipecomm, "|", &pp);
+        char *commands[10];
+        int numcom = 0;
+
+        while (p != NULL)
         {
-            subcom = strtok_r(cmtemp, "&", &y);
-            trimstr(subcom);
-            if (strcmp(subcom, "bye") == 0)
-            {
-                // printf("bye :(\n");
-                printf("bye ");
-                sleep(1);
-                printf(":(\n");
-                sleep(1);
-                // updatepastevents();
-                fflush(stdout);
-                exit(0);
-            }
-
-            // start = clock();
-            time(&start);
-            fg(subcom);
-            time(&end);
-            // end = clock();
-            time_taken = ((double)(end - start));
-            // printf("fg took time %lf\n", time_taken);
-            if (time_taken > 2)
-            {
-                pflag = (int)time_taken;
-                strcpy(pcom, subcom);
-            }
+            commands[numcom] = malloc(sizeof(char) * (strlen(p) + 1));
+            strcpy(commands[numcom], p);
+            trimstr(commands[numcom]);
+            numcom++;
+            p = strtok_r(NULL, "|", &pp);
         }
+
+        if (numcom >= 2)
+        {
+            int pipes[numcom - 1][2];
+            for (i = 0; i < numcom; i++)
+            {
+                char pipingcomm[4096];
+                strcpy(pipingcomm, commands[i]);
+                // printf("pipingcomm: %s\n", pipingcomm);
+
+                if (i != numcom - 1)
+                {
+                    pipe(pipes[i]);
+                    printf("%d\n", pipes[i][1]);
+                    dup2(pipes[i][1], STDOUT_FILENO);
+                }
+                else
+                    dup2(out, STDOUT_FILENO);
+
+                if (i > 0)
+                    dup2(pipes[i - 1][0], STDIN_FILENO);
+
+                runcom(pipingcomm, input);
+
+                close(pipes[i - 1][0]);
+                close(pipes[i][1]);
+            }
+            dup2(out, STDOUT_FILENO);
+            dup2(in, STDIN_FILENO);
+        }
+
         else
-        {
-
-            char bgcom[noa][4096]; // background commands
-            subcom = strtok_r(cmtemp, "&", &y);
-            for (i = 0; i < noa; i++)
-            {
-                strcpy(bgcom[i], subcom);
-                if (strcmp(subcom, "bye") == 0)
-                {
-                    // printf("bye :(\n");
-                    printf("bye ");
-                    sleep(1);
-                    printf(":(\n");
-                    sleep(1);
-                    // updatepastevents(input);
-                    fflush(stdout);
-                    exit(0);
-                }
-                subcom = strtok_r(NULL, "&", &y);
-            }
-
-            for (i = 0; i < noa; i++)
-                bg(bgcom[i]);
-
-            if (subcom != NULL)
-            {
-                trimstr(subcom);
-                // start = clock();
-                time(&start);
-                fg(subcom);
-                time(&end);
-                // end = clock();
-                time_taken = ((double)(end - start));
-                // printf("fg took time %lf\n", time_taken);
-                if (time_taken > 2)
-                {
-                    pflag = (int)time_taken;
-                    strcpy(pcom, subcom);
-                }
-            }
-            // fg(subcom);
-        }
+            runcom(command, input);
+        // printf("command: %s\n\n", command);
 
         command = strtok_r(NULL, ";", &x);
     }
+    // int pflag = 0;
+    // char pcom[4096];
+    // strcpy(pcom, "");
+
+    // int i;
+
+    // if (input[strlen(input) - 1] == '\n')
+    //     input[strlen(input) - 1] = '\0';
+
+    // // tokenising the input
+    // char temp[strlen(input) + 1];
+    // strcpy(temp, input);
+
+    // char *x;
+    // char *y;
+
+    // // printf("input: %s\n", input);
+    // char *command = strtok_r(temp, ";", &x);
+    // while (command != NULL)
+    // {
+    //     if (strcmp(command, "bye") == 0)
+    //     {
+    //         // printf("bye :(\n");
+    //         printf("bye ");
+    //         sleep(1);
+    //         printf(":(\n");
+    //         sleep(1);
+    //         // updatepastevents(input);
+    //         fflush(stdout);
+    //         exit(0);
+    //     }
+    //     char cmtemp[strlen(command) + 1];
+    //     strcpy(cmtemp, command);
+
+    //     if (command[strlen(cmtemp) - 1] == '&')
+    //         strcat(cmtemp, " ");
+
+    //     // clock_t start, end;
+    //     time_t start, end;
+    //     double time_taken;
+
+    //     int noa = -1; // number of ampersands
+    //     char *subcom = strtok_r(cmtemp, "&", &y);
+    //     trimstr(subcom);
+    //     // printf("%s\t", subcom);
+
+    //     while (subcom != NULL)
+    //     {
+    //         noa++;
+    //         subcom = strtok_r(NULL, "&", &y);
+    //     }
+
+    //     memset(cmtemp, '\0', sizeof(cmtemp));
+    //     char *y = NULL;
+    //     strcpy(cmtemp, command);
+    //     // printf("noa=%d\n", noa);
+
+    //     if (noa == 0)
+    //     {
+    //         subcom = strtok_r(cmtemp, "&", &y);
+    //         trimstr(subcom);
+    //         if (strcmp(subcom, "bye") == 0)
+    //         {
+    //             // printf("bye :(\n");
+    //             printf("bye ");
+    //             sleep(1);
+    //             printf(":(\n");
+    //             sleep(1);
+    //             // updatepastevents();
+    //             fflush(stdout);
+    //             exit(0);
+    //         }
+
+    //         // start = clock();
+    //         time(&start);
+    //         fg(subcom);
+    //         time(&end);
+    //         // end = clock();
+    //         time_taken = ((double)(end - start));
+    //         // printf("fg took time %lf\n", time_taken);
+    //         if (time_taken > 2)
+    //         {
+    //             pflag = (int)time_taken;
+    //             strcpy(pcom, subcom);
+    //         }
+    //     }
+    //     else
+    //     {
+
+    //         char bgcom[noa][4096]; // background commands
+    //         subcom = strtok_r(cmtemp, "&", &y);
+    //         for (i = 0; i < noa; i++)
+    //         {
+    //             strcpy(bgcom[i], subcom);
+    //             if (strcmp(subcom, "bye") == 0)
+    //             {
+    //                 // printf("bye :(\n");
+    //                 printf("bye ");
+    //                 sleep(1);
+    //                 printf(":(\n");
+    //                 sleep(1);
+    //                 // updatepastevents(input);
+    //                 fflush(stdout);
+    //                 exit(0);
+    //             }
+    //             subcom = strtok_r(NULL, "&", &y);
+    //         }
+
+    //         for (i = 0; i < noa; i++)
+    //             bg(bgcom[i]);
+
+    //         if (subcom != NULL)
+    //         {
+    //             trimstr(subcom);
+    //             // start = clock();
+    //             time(&start);
+    //             fg(subcom);
+    //             time(&end);
+    //             // end = clock();
+    //             time_taken = ((double)(end - start));
+    //             // printf("fg took time %lf\n", time_taken);
+    //             if (time_taken > 2)
+    //             {
+    //                 pflag = (int)time_taken;
+    //                 strcpy(pcom, subcom);
+    //             }
+    //         }
+    //         // fg(subcom);
+    //     }
+
+    //     command = strtok_r(NULL, ";", &x);
+    // }
 }
 
 void pastevents(char *command)
